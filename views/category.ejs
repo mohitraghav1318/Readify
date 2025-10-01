@@ -1,0 +1,65 @@
+<%- include('partials/header') %>
+
+    <div class="container my-5">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/library">Library</a></li>
+                <li class="breadcrumb-item active">
+                    <%= category.name %>
+                </li>
+            </ol>
+        </nav>
+
+        <div class="row mb-4">
+            <div class="col-md-3">
+                <img src="<%= category.coverImage %>" class="img-fluid rounded shadow" alt="<%= category.name %>">
+            </div>
+            <div class="col-md-9">
+                <h1 class="mb-3">
+                    <%= category.name %>
+                </h1>
+                <p class="lead text-muted">
+                    <%= category.description %>
+                </p>
+                <p class="text-muted"><i class="bi bi-book"></i>
+                    <%= books.length %> books available
+                </p>
+            </div>
+        </div>
+
+        <h3 class="mb-4">Books in this category</h3>
+
+        <div class="row g-4">
+            <% if (books && books.length> 0) { %>
+                <% books.forEach(book=> { %>
+                    <div class="col-md-3">
+                        <a href="/library/book/<%= book._id %>" class="text-decoration-none">
+                            <div class="card book-card h-100 shadow-sm hover-lift">
+                                <img src="<%= book.coverImage %>" class="card-img-top" alt="<%= book.title %>"
+                                    style="height: 250px; object-fit: cover;">
+                                <div class="card-body">
+                                    <h6 class="card-title">
+                                        <%= book.title %>
+                                    </h6>
+                                    <p class="card-text text-muted small">By <%= book.author %>
+                                    </p>
+                                    <div class="d-flex align-items-center gap-2">
+                                        <span class="badge bg-primary"><i class="bi bi-heart-fill"></i>
+                                            <%= book.likes %>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <% }); %>
+                        <% } else { %>
+                            <div class="col-12 text-center text-muted py-5">
+                                <i class="bi bi-inbox fs-1"></i>
+                                <p class="mt-3">No books available in this category yet.</p>
+                            </div>
+                            <% } %>
+        </div>
+    </div>
+
+    <%- include('partials/footer') %>

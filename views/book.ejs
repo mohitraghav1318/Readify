@@ -1,0 +1,116 @@
+<%- include('partials/header') %>
+
+    <div class="container my-5">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/library">Library</a></li>
+                <li class="breadcrumb-item"><a href="/library/category/<%= book.category._id %>">
+                        <%= book.category.name %>
+                    </a></li>
+                <li class="breadcrumb-item active">
+                    <%= book.title %>
+                </li>
+            </ol>
+        </nav>
+
+        <div class="row">
+            <div class="col-md-4">
+                <img src="<%= book.coverImage %>" class="img-fluid rounded shadow mb-3" alt="<%= book.title %>">
+
+                <div class="d-grid gap-2">
+                    <% if (isAuthenticated) { %>
+                        <form method="POST" action="/library/book/<%= book._id %>/add-to-reading">
+                            <button type="submit" class="btn <%= isReading ? 'btn-success' : 'btn-primary' %> w-100">
+                                <i class="bi <%= isReading ? 'bi-check-circle' : 'bi-plus-circle' %>"></i>
+                                <%= isReading ? 'In My Library' : 'Add to My Library' %>
+                            </button>
+                        </form>
+
+                        <form method="POST" action="/library/book/<%= book._id %>/like">
+                            <button type="submit"
+                                class="btn <%= isLiked ? 'btn-danger' : 'btn-outline-danger' %> w-100">
+                                <i class="bi bi-heart<%= isLiked ? '-fill' : '' %>"></i>
+                                <%= isLiked ? 'Unlike' : 'Like' %> (<%= book.likes %>)
+                            </button>
+                        </form>
+                        <% } else { %>
+                            <a href="/login" class="btn btn-primary">
+                                <i class="bi bi-box-arrow-in-right"></i> Login to Add to Library
+                            </a>
+                            <% } %>
+                </div>
+            </div>
+
+            <div class="col-md-8">
+                <h1 class="mb-3">
+                    <%= book.title %>
+                </h1>
+                <p class="lead text-muted mb-4">By <%= book.author %>
+                </p>
+
+                <div class="mb-4">
+                    <span class="badge bg-primary">
+                        <%= book.category.name %>
+                    </span>
+                    <span class="badge bg-secondary"><i class="bi bi-heart-fill"></i>
+                        <%= book.likes %> likes
+                    </span>
+                </div>
+
+                <h5>Description</h5>
+                <p>
+                    <%= book.description %>
+                </p>
+
+                <hr class="my-4">
+
+                <h4 class="mb-3">Comments (<%= comments.length %>)</h4>
+
+                <% if (isAuthenticated) { %>
+                    <form method="POST" action="/library/book/<%= book._id %>/comment" class="mb-4">
+                        <div class="mb-3">
+                            <textarea name="text" class="form-control" rows="3"
+                                placeholder="Share your thoughts about this book..." required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-chat-left-text"></i> Post Comment
+                        </button>
+                    </form>
+                    <% } else { %>
+                        <div class="alert alert-info mb-4">
+                            <a href="/login">Login</a> to post comments
+                        </div>
+                        <% } %>
+
+                            <div class="comments-section">
+                                <% if (comments && comments.length> 0) { %>
+                                    <% comments.forEach(comment=> { %>
+                                        <div class="card mb-3">
+                                            <div class="card-body">
+                                                <div class="d-flex justify-content-between align-items-start">
+                                                    <div>
+                                                        <h6 class="card-subtitle mb-2 text-muted">
+                                                            <i class="bi bi-person-circle"></i>
+                                                            <%= comment.user.fullName %>
+                                                        </h6>
+                                                        <p class="card-text">
+                                                            <%= comment.text %>
+                                                        </p>
+                                                    </div>
+                                                    <small class="text-muted">
+                                                        <%= new Date(comment.createdAt).toLocaleDateString() %>
+                                                    </small>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <% }); %>
+                                            <% } else { %>
+                                                <p class="text-muted">No comments yet. Be the first to share your
+                                                    thoughts!</p>
+                                                <% } %>
+                            </div>
+            </div>
+        </div>
+    </div>
+
+    <%- include('partials/footer') %>

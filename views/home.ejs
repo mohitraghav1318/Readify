@@ -1,0 +1,70 @@
+<%- include('partials/header') %>
+
+    <div class="hero-section bg-primary text-white py-5">
+        <div class="container text-center">
+            <h1 class="display-4 fw-bold mb-3">Welcome to Readify</h1>
+            <p class="lead mb-4">Discover thousands of books across multiple categories. Start your learning journey
+                today!</p>
+            <a href="/library" class="btn btn-light btn-lg">
+                <i class="bi bi-collection"></i> Browse Library
+            </a>
+        </div>
+    </div>
+
+    <div class="container my-5">
+        <h2 class="mb-4 text-center">Featured Categories</h2>
+        <div class="row g-4">
+            <% if (featuredCategories && featuredCategories.length> 0) { %>
+                <% featuredCategories.forEach(category=> { %>
+                    <div class="col-md-4">
+                        <a href="/library/category/<%= category._id %>" class="text-decoration-none">
+                            <div class="card category-card h-100 shadow-sm">
+                                <img src="<%= category.coverImage %>" class="card-img-top" alt="<%= category.name %>"
+                                    style="height: 200px; object-fit: cover;">
+                                <div class="card-body">
+                                    <h5 class="card-title">
+                                        <%= category.name %>
+                                    </h5>
+                                    <p class="card-text text-muted">
+                                        <%= category.description.substring(0, 100) %>...
+                                    </p>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <% }); %>
+                        <% } else { %>
+                            <div class="col-12 text-center text-muted">
+                                <p>No categories available yet. Check back soon!</p>
+                            </div>
+                            <% } %>
+        </div>
+
+        <div class="text-center mt-5">
+            <a href="/library" class="btn btn-primary btn-lg">View All Categories</a>
+        </div>
+    </div>
+
+    <div class="bg-light py-5">
+        <div class="container">
+            <div class="row text-center">
+                <div class="col-md-4 mb-4">
+                    <i class="bi bi-book-half fs-1 text-primary"></i>
+                    <h4 class="mt-3">Vast Collection</h4>
+                    <p class="text-muted">Access hundreds of books across multiple categories</p>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <i class="bi bi-person-check fs-1 text-primary"></i>
+                    <h4 class="mt-3">Track Progress</h4>
+                    <p class="text-muted">Keep track of your reading journey with your personal dashboard</p>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <i class="bi bi-chat-dots fs-1 text-primary"></i>
+                    <h4 class="mt-3">Engage & Share</h4>
+                    <p class="text-muted">Comment and like books, share your thoughts with the community</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <%- include('partials/footer') %>
