@@ -2,17 +2,8 @@ const express = require('express');
 const session = require('express-session');
 const MongoStore = require('connect-mongo');
 const path = require('path');
+const mongoose = require('mongoose');
 require('dotenv').config();
-require('dotenv').config();
-
-// Debug: See all loaded environment variables
-console.log('All environment variables loaded:');
-Object.keys(process.env).forEach(key => {
-    if (key.includes('MONGO') || key.includes('DB') || key.includes('URI')) {
-        console.log(`${key}: ${process.env[key]}`);
-    }
-});
-
 
 const connectDB = require('./config/database');
 const { isAuthenticated } = require('./middleware/auth');
@@ -25,7 +16,19 @@ const dashboardRoutes = require('./routes/dashboard');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-connectDB();
+// Connect to MongoDB once, through your config file
+connectDB()
+    .then(() => {
+        console.log("✅ Connected to MongoDB");
+        // Start server only after successful DB connection
+        app.listen(PORT, () => {
+            console.log(`Readify server running on http://localhost:${PORT}`);
+        });
+    })
+    .catch(err => {
+        console.error("❌ DB connection failed:", err);
+        process.exit(1);
+    });
 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
@@ -54,11 +57,6 @@ app.use('/', authRoutes);
 app.use('/library', libraryRoutes);
 app.use('/dashboard', dashboardRoutes);
 
-
 app.use((req, res) => {
     res.status(404).render('404', { title: '404 - Page Not Found' });
-});
-
-app.listen(PORT, () => {
-    console.log(`Readify server running on http://localhost:${PORT}`);
 });
