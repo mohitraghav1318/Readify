@@ -54,6 +54,7 @@ app.use('/', authRoutes);
 app.use('/library', libraryRoutes);
 app.use('/dashboard', dashboardRoutes);
 
+
 app.use((req, res) => {
     res.status(404).render('404', { title: '404 - Page Not Found' });
 });

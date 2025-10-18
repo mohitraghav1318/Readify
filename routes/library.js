@@ -89,6 +89,25 @@ router.post('/book/:id/like', async (req, res) => {
     }
 });
 
+// Read Now route (GET)
+router.get('/book/:id/read', async (req, res) => {
+    if (!req.session.userId) {
+        return res.redirect('/login');
+    }
+
+    try {
+        const book = await Book.findById(req.params.id);
+        if (!book) return res.redirect('/library');
+
+        res.render('reader', { book });
+    } catch (error) {
+        console.error('Read error:', error);
+        res.redirect(`/library/book/${req.params.id}`);
+    }
+});
+
+
+
 router.post('/book/:id/comment', async (req, res) => {
     if (!req.session.userId) {
         return res.redirect('/login');

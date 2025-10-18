@@ -1,18 +1,13 @@
 const mongoose = require('mongoose');
-require('dotenv').config();
+require('dotenv').config({ path: '../.env' });
+
 const Category = require('../models/Category');
 const Book = require('../models/Book');
-
 const categories = [
     {
-        name: 'Programming',
-        description: 'Learn coding, software development, and computer science fundamentals',
-        coverImage: 'https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=500'
-    },
-    {
-        name: 'Business',
-        description: 'Master business strategies, entrepreneurship, and management skills',
-        coverImage: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=500'
+        name: 'Self-Help',
+        description: 'Improve yourself with personal development and motivational books',
+        coverImage: 'https://images.unsplash.com/photo-1499750310107-5fef28a66643?w=500'
     },
     {
         name: 'Science',
@@ -20,14 +15,24 @@ const categories = [
         coverImage: 'https://images.unsplash.com/photo-1532094349884-543bc11b234d?w=500'
     },
     {
-        name: 'History',
-        description: 'Journey through time and learn about historical events and civilizations',
-        coverImage: 'https://images.unsplash.com/photo-1461360370896-922624d12aa1?w=500'
+        name: 'Business',
+        description: 'Master business strategies, entrepreneurship, and management skills',
+        coverImage: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=500'
     },
     {
-        name: 'Self-Help',
-        description: 'Improve yourself with personal development and motivational books',
-        coverImage: 'https://images.unsplash.com/photo-1499750310107-5fef28a66643?w=500'
+        name: 'Biographies',
+        description: 'Inspiring life stories of remarkable people who changed the world',
+        coverImage: 'https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=500'
+    },
+    {
+        name: 'Indian History',
+        description: 'Journey through India\'s freedom struggle and rich historical heritage',
+        coverImage: 'https://images.unsplash.com/photo-1524492412937-b28074a5d7da?w=500'
+    },
+    {
+        name: 'Indian Polity & Economy',
+        description: 'Understand India\'s political system, constitution, and economic growth',
+        coverImage: 'https://images.unsplash.com/photo-1589578527966-fdac0f44566c?w=500'
     },
     {
         name: 'Fiction',
@@ -35,185 +40,356 @@ const categories = [
         coverImage: 'https://images.unsplash.com/photo-1512820790803-83ca734da794?w=500'
     },
     {
-        name: 'Mathematics',
-        description: 'Understand numbers, equations, and mathematical concepts',
-        coverImage: 'https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=500'
+        name: 'Fantasy, Sci-Fi & Mystery',
+        description: 'Explore magical realms, futuristic worlds, and thrilling mysteries',
+        coverImage: 'https://images.unsplash.com/photo-1519682337058-a94d519337bc?w=500'
     },
     {
-        name: 'Art & Design',
-        description: 'Explore creativity, design principles, and artistic techniques',
-        coverImage: 'https://images.unsplash.com/photo-1513364776144-60967b0f800f?w=500'
-    },
-    {
-        name: 'Psychology',
-        description: 'Understand the human mind, behavior, and mental processes',
-        coverImage: 'https://images.unsplash.com/photo-1509228468518-180dd4864904?w=500'
-    },
-    {
-        name: 'Philosophy',
-        description: 'Question existence, ethics, and the nature of reality',
+        name: 'Religious & Philosophical Texts',
+        description: 'Ancient wisdom and spiritual teachings from sacred scriptures',
         coverImage: 'https://images.unsplash.com/photo-1457369804613-52c61a468e7d?w=500'
+    },
+    {
+        name: 'Graphic Novels & Comics',
+        description: 'Visual storytelling with superheroes, action, and adventure',
+        coverImage: 'https://images.unsplash.com/photo-1612036782180-6f0b6cd846fe?w=500'
     }
 ];
 
 const booksData = {
-    Programming: [
-        { title: 'Clean Code', author: 'Robert C. Martin', description: 'A handbook of agile software craftsmanship teaching how to write code that is easy to read, maintain, and extend.' },
-        { title: 'JavaScript: The Good Parts', author: 'Douglas Crockford', description: 'Discover the elegant, innovative, and highly expressive language that lies hidden in JavaScript.' },
-        { title: 'Python Crash Course', author: 'Eric Matthes', description: 'A hands-on, project-based introduction to programming in Python.' },
-        { title: 'The Pragmatic Programmer', author: 'David Thomas', description: 'Your journey to mastery through practical advice for software craftsmanship.' },
-        { title: 'Design Patterns', author: 'Gang of Four', description: 'Elements of reusable object-oriented software design patterns.' },
-        { title: 'You Don\'t Know JS', author: 'Kyle Simpson', description: 'Deep dive into the core mechanisms of JavaScript.' },
-        { title: 'Eloquent JavaScript', author: 'Marijn Haverbeke', description: 'A modern introduction to programming with JavaScript.' },
-        { title: 'Head First Java', author: 'Kathy Sierra', description: 'A brain-friendly guide to learning Java programming.' },
-        { title: 'Refactoring', author: 'Martin Fowler', description: 'Improving the design of existing code through refactoring techniques.' },
-        { title: 'Code Complete', author: 'Steve McConnell', description: 'A practical handbook of software construction best practices.' }
+    "Self-Help": [
+        {
+            title: 'Atomic Habits',
+            author: 'James Clear',
+            description: 'Tiny changes, remarkable results in building good habits.',
+            link: 'https://dn790007.ca.archive.org/0/items/atomic-habits-pdfdrive/Atomic%20habits%20%28%20PDFDrive%20%29.pdf'
+        },
+        {
+            title: 'Ikigai',
+            author: 'Héctor García',
+            description: 'The Japanese secret to a long and happy life.',
+            link: 'https://dn790007.ca.archive.org/0/items/ikigai-the-japanese-secret-to-a-long-and-happy-life-pdfdrive.com/Ikigai%20_%20the%20Japanese%20secret%20to%20a%20long%20and%20happy%20life%20%28%20PDFDrive.com%20%29.pdf'
+        },
+        {
+            title: 'The Power of Habit',
+            author: 'Charles Duhigg',
+            description: 'How habits are formed and how they shape our lives.',
+            link: 'https://ia803102.us.archive.org/35/items/CharlesDuhigg.ThePowerOfHabit_201808/Charles-Duhigg.The-Power-of-Habit.pdf'
+        }
     ],
-    Business: [
-        { title: 'The Lean Startup', author: 'Eric Ries', description: 'How today\'s entrepreneurs use continuous innovation to create radically successful businesses.' },
-        { title: 'Good to Great', author: 'Jim Collins', description: 'Why some companies make the leap and others don\'t.' },
-        { title: 'Zero to One', author: 'Peter Thiel', description: 'Notes on startups, or how to build the future.' },
-        { title: 'The 7 Habits', author: 'Stephen Covey', description: 'Powerful lessons in personal change and effective leadership.' },
-        { title: 'Thinking Fast and Slow', author: 'Daniel Kahneman', description: 'Insights into the two systems that drive the way we think.' },
-        { title: 'The Innovator\'s Dilemma', author: 'Clayton Christensen', description: 'When new technologies cause great firms to fail.' },
-        { title: 'Start With Why', author: 'Simon Sinek', description: 'How great leaders inspire everyone to take action.' },
-        { title: 'The Hard Thing', author: 'Ben Horowitz', description: 'Building a business when there are no easy answers.' },
-        { title: 'Built to Last', author: 'Jim Collins', description: 'Successful habits of visionary companies.' },
-        { title: 'The E-Myth Revisited', author: 'Michael Gerber', description: 'Why most small businesses don\'t work and what to do about it.' }
+    "Science": [
+        {
+            title: 'Sapiens: A Brief History of Humankind',
+            author: 'Yuval Noah Harari',
+            description: 'The story of humankind and our evolution.',
+            link: 'https://ethz.ch/content/dam/ethz/special-interest/usys/ites/ecosystem-management-dam/documents/EducationDOC/Readings_DOC/sapiens.pdf'
+        }
     ],
-    Science: [
-        { title: 'A Brief History of Time', author: 'Stephen Hawking', description: 'From the Big Bang to black holes, explore the universe.' },
-        { title: 'Cosmos', author: 'Carl Sagan', description: 'A journey through space and time exploring the universe.' },
-        { title: 'The Selfish Gene', author: 'Richard Dawkins', description: 'A gene-centered view of evolution and natural selection.' },
-        { title: 'Sapiens', author: 'Yuval Noah Harari', description: 'A brief history of humankind from stone age to silicon age.' },
-        { title: 'The Origin of Species', author: 'Charles Darwin', description: 'The foundation of evolutionary biology.' },
-        { title: 'Astrophysics for People', author: 'Neil deGrasse Tyson', description: 'Understanding the universe in a hurry.' },
-        { title: 'The Double Helix', author: 'James Watson', description: 'A personal account of the discovery of DNA structure.' },
-        { title: 'The Elegant Universe', author: 'Brian Greene', description: 'Superstrings, hidden dimensions, and the quest for ultimate theory.' },
-        { title: 'Quantum Theory', author: 'David Bohm', description: 'A deeper understanding of quantum mechanics.' },
-        { title: 'The Gene', author: 'Siddhartha Mukherjee', description: 'An intimate history of genetics and heredity.' }
+    "Business": [
+        {
+            title: 'Rich Dad Poor Dad',
+            author: 'Robert T. Kiyosaki',
+            description: 'What the rich teach their kids about money that the poor and middle class do not.',
+            link: 'https://dn721905.ca.archive.org/0/items/rich-dad-poor-dad_bongotweet/rich-dad-poor-dad.pdf'
+        },
+        {
+            title: 'The Psychology of Money',
+            author: 'Morgan Housel',
+            description: 'Timeless lessons on wealth, greed, and happiness.',
+            link: 'https://hostnezt.com/cssfiles/general/the-psychology-of-money-by-morgan-housel.pdf'
+        }
     ],
-    History: [
-        { title: 'Guns, Germs, and Steel', author: 'Jared Diamond', description: 'The fates of human societies throughout history.' },
-        { title: '1776', author: 'David McCullough', description: 'The story of the American Revolution year.' },
-        { title: 'The Silk Roads', author: 'Peter Frankopan', description: 'A new history of the world through trade routes.' },
-        { title: 'SPQR', author: 'Mary Beard', description: 'A history of ancient Rome and its empire.' },
-        { title: 'Team of Rivals', author: 'Doris Kearns Goodwin', description: 'The political genius of Abraham Lincoln.' },
-        { title: 'The History of', author: 'Susan Wise Bauer', description: 'Ancient world from earliest accounts to fall of Rome.' },
-        { title: 'Churchill', author: 'Andrew Roberts', description: 'Walking with destiny through World War II.' },
-        { title: 'The Wright Brothers', author: 'David McCullough', description: 'The dramatic story behind the first flight.' },
-        { title: 'Alexander Hamilton', author: 'Ron Chernow', description: 'Biography of America\'s founding father.' },
-        { title: 'The Rise and Fall', author: 'William Shirer', description: 'A history of Nazi Germany.' }
+    "Biographies": [
+        {
+            title: 'Steve Jobs',
+            author: 'Walter Isaacson',
+            description: 'The exclusive biography of the visionary founder of Apple.',
+            link: 'https://www.readdiary.com/wp-content/uploads/2022/05/Steve-Jobs-PDFDrive-1.pdf'
+        },
+        {
+            title: 'Wings of Fire',
+            author: 'A.P.J. Abdul Kalam',
+            description: 'The inspiring autobiography of the former President of India.',
+            link: 'https://ati.dae.gov.in/ati12052021_8.pdf'
+        },
+        {
+            title: 'The Diary of a Young Girl',
+            author: 'Anne Frank',
+            description: 'The powerful and moving diary of a young Jewish girl during the Holocaust.',
+            link: 'https://ajarng.weebly.com/uploads/8/2/3/0/8230849/pages_from_anne_frank_-_the_diary_of_a_young_girl.pdf'
+        },
+        {
+            title: 'Long Walk to Freedom',
+            author: 'Nelson Mandela',
+            description: 'The autobiography of the anti-apartheid revolutionary and former South African President.',
+            link: 'https://courseware.cutm.ac.in/wp-content/uploads/2020/05/Long-Walk-to-Freedom-Autobiography-of-Nelson-Mandela.pdf'
+        },
+        {
+            title: 'Educated',
+            author: 'Tara Westover',
+            description: 'A memoir about overcoming hardship to gain an education.',
+            link: 'https://ia800205.us.archive.org/15/items/educated-a-memoir_202403/Educated%20_%20A%20memoir.pdf'
+        },
+        {
+            title: 'Becoming',
+            author: 'Michelle Obama',
+            description: 'The inspiring life story and journey of the former First Lady of the United States.',
+            link: 'https://icrrd.com/public/media/15-05-2021-133541Becoming-Michelle-Obama.pdf'
+        }
     ],
-    'Self-Help': [
-        { title: 'Atomic Habits', author: 'James Clear', description: 'Tiny changes, remarkable results in building good habits.' },
-        { title: 'The Power of Now', author: 'Eckhart Tolle', description: 'A guide to spiritual enlightenment and present moment.' },
-        { title: 'How to Win Friends', author: 'Dale Carnegie', description: 'Timeless advice for building relationships and influence.' },
-        { title: 'Think and Grow Rich', author: 'Napoleon Hill', description: 'The philosophy of personal achievement and success.' },
-        { title: 'Man\'s Search for Meaning', author: 'Viktor Frankl', description: 'Finding purpose through suffering and adversity.' },
-        { title: 'The Subtle Art', author: 'Mark Manson', description: 'A counterintuitive approach to living a good life.' },
-        { title: 'Mindset', author: 'Carol Dweck', description: 'The new psychology of success through growth mindset.' },
-        { title: 'Grit', author: 'Angela Duckworth', description: 'The power of passion and perseverance.' },
-        { title: 'Deep Work', author: 'Cal Newport', description: 'Rules for focused success in a distracted world.' },
-        { title: 'The 5 AM Club', author: 'Robin Sharma', description: 'Own your morning, elevate your life.' }
+    "Indian History": [
+        {
+            title: "India's Struggle for Independence",
+            author: 'Bipan Chandra',
+            description: 'A comprehensive account of the freedom movement.',
+            link: 'https://www.davcollegekanpur.ac.in/assets/ebooks/History/India%E2%80%99s%20Struggle%20for%20Independence%20Bipan%20chandra.pdf'
+        },
+        {
+            title: 'The Discovery of India',
+            author: 'Jawaharlal Nehru',
+            description: "A journey through India's rich history and culture.",
+            link: 'https://library.bjp.org/jspui/bitstream/123456789/277/1/The-Discovery-Of-India-Jawaharlal-Nehru.pdf'
+        },
+        {
+            title: 'An Autobiography',
+            author: 'M.K. Gandhi',
+            description: 'The life story and philosophies of the Mahatma.',
+            link: 'https://www.mkgandhi.org/ebks/An-Autobiography.pdf'
+        },
+        {
+            title: 'Why I Am an Atheist',
+            author: 'Bhagat Singh',
+            description: 'A powerful essay on reason and revolution from the famed freedom fighter.',
+            link: 'https://theanarchistlibrary.org/mirror/b/bs/bhagat-singh-why-i-am-an-atheist.c5.pdf'
+        },
+        {
+            title: 'Veer Savarkar',
+            author: 'Uday Mahurkar',
+            description: 'The man who could have prevented partition.',
+            link: 'https://sanatanshop.com/wp-content/uploads/2022/03/veer_savarkar_intro_mar.pdf'
+        }
     ],
-    Fiction: [
-        { title: '1984', author: 'George Orwell', description: 'A dystopian social science fiction novel about totalitarianism.' },
-        { title: 'To Kill a Mockingbird', author: 'Harper Lee', description: 'A story of racial injustice and childhood innocence.' },
-        { title: 'The Great Gatsby', author: 'F. Scott Fitzgerald', description: 'The American dream in the roaring twenties.' },
-        { title: 'Pride and Prejudice', author: 'Jane Austen', description: 'A romantic novel of manners and social class.' },
-        { title: 'The Catcher in the Rye', author: 'J.D. Salinger', description: 'A story of teenage rebellion and alienation.' },
-        { title: 'Lord of the Flies', author: 'William Golding', description: 'Survival and civilization on a deserted island.' },
-        { title: 'Harry Potter', author: 'J.K. Rowling', description: 'The magical journey of the boy who lived.' },
-        { title: 'The Hobbit', author: 'J.R.R. Tolkien', description: 'An unexpected journey to reclaim a homeland.' },
-        { title: 'Brave New World', author: 'Aldous Huxley', description: 'A dystopian vision of a technologically advanced future.' },
-        { title: 'The Lord of the Rings', author: 'J.R.R. Tolkien', description: 'An epic quest to destroy the One Ring.' }
+    "Indian Polity & Economy": [
+        {
+            title: 'Indian Economy',
+            author: 'Ramesh Singh',
+            description: 'A key text for understanding the Indian economy, widely read by civil service aspirants.',
+            link: 'https://www.jsscacs.edu.in/sites/default/files/Files/Indian_Economy_Ramesh_Singh_7e_0.pdf'
+        },
+        {
+            title: 'Economic Survey of India',
+            author: 'Govt. of India',
+            description: "The official annual report on the state of India's economy.",
+            link: 'https://www.indiabudget.gov.in/economicsurvey/doc/echapter.pdf'
+        },
+        {
+            title: 'India Unbound',
+            author: 'Gurcharan Das',
+            description: "A narrative of India's economic journey from independence to a global powerhouse.",
+            link: 'https://inspiredforias.wordpress.com/wp-content/uploads/2017/06/india-unbound-by-gurcharan-das.pdf'
+        },
+        {
+            title: 'Indian Polity',
+            author: 'M. Laxmikanth',
+            description: "Considered the 'bible' for Indian civil services preparation on the topic of polity.",
+            link: 'https://blogmedia.testbook.com/kmat-kerala/wp-content/uploads/2023/06/indian-polity-4024d1bc.pdf'
+        },
+        {
+            title: 'Introduction to the Constitution of India',
+            author: 'D.D. Basu',
+            description: 'A classic, scholarly work on the Indian Constitution.',
+            link: 'https://blogmedia.testbook.com/kmat-kerala/wp-content/uploads/2023/06/indian-polity-by-dd-bashu-edd349fb.pdf'
+        }
     ],
-    Mathematics: [
-        { title: 'The Joy of x', author: 'Steven Strogatz', description: 'A guided tour of mathematics from basics to infinity.' },
-        { title: 'Fermat\'s Enigma', author: 'Simon Singh', description: 'The epic quest to solve mathematics greatest mystery.' },
-        { title: 'How Not to Be Wrong', author: 'Jordan Ellenberg', description: 'The power of mathematical thinking in everyday life.' },
-        { title: 'The Man Who Knew Infinity', author: 'Robert Kanigel', description: 'A life of the genius Ramanujan.' },
-        { title: 'Prime Obsession', author: 'John Derbyshire', description: 'Bernhard Riemann and the greatest unsolved problem.' },
-        { title: 'Gödel, Escher, Bach', author: 'Douglas Hofstadter', description: 'An eternal golden braid of mathematics, art, and music.' },
-        { title: 'The Code Book', author: 'Simon Singh', description: 'The science of secrecy from ancient Egypt to quantum.' },
-        { title: 'Euler\'s Gem', author: 'David Richeson', description: 'The polyhedron formula and the birth of topology.' },
-        { title: 'Infinite Powers', author: 'Steven Strogatz', description: 'How calculus reveals the secrets of the universe.' },
-        { title: 'Love and Math', author: 'Edward Frenkel', description: 'The heart of hidden reality through mathematics.' }
+    "Fiction": [
+        {
+            title: 'The Alchemist',
+            author: 'Paulo Coelho',
+            description: 'A philosophical story about a shepherd boy who journeys in search of treasure.',
+            link: 'https://icrrd.com/public/media/15-05-2021-084550The-Alchemist-Paulo-Coelho.pdf'
+        },
+        {
+            title: 'The God of Small Things',
+            author: 'Arundhati Roy',
+            description: 'This Booker Prize-winning novel tells the story of fraternal twins in Kerala, India.',
+            link: 'https://vidyaprabodhinicollege.edu.in/VPCCECM/ebooks/ENGLISH%20LITERATURE/Arundhati%20Roy/Arundhati%20Roy%20-%20The%20God%20of%20Small%20Things.pdf'
+        },
+        {
+            title: 'To Kill a Mockingbird',
+            author: 'Harper Lee',
+            description: 'A gripping story about justice and morality in the deep South of America.',
+            link: 'https://www.raio.org/TKMFullText.pdf'
+        },
+        {
+            title: 'Pride and Prejudice',
+            author: 'Jane Austen',
+            description: 'A classic romance set against the backdrop of societal norms in 19th-century England.',
+            link: 'https://giove.isti.cnr.it/demo/eread/Libri/joy/Pride.pdf'
+        },
+        {
+            title: '1984',
+            author: 'George Orwell',
+            description: 'A classic dystopian novel exploring totalitarianism, mass surveillance, and propaganda.',
+            link: 'https://www.clarkchargers.org/ourpages/auto/2015/3/10/50720556/1984.pdf'
+        },
+        {
+            title: 'The Great Gatsby',
+            author: 'F. Scott Fitzgerald',
+            description: 'The story of love, wealth, and the American Dream in the Jazz Age.',
+            link: 'https://ct02210097.schoolwires.net/site/handlers/filedownload.ashx?moduleinstanceid=26616&dataid=28467&FileName=The%20Great%20Gatsby.pdf'
+        }
     ],
-    'Art & Design': [
-        { title: 'The Design of Everyday', author: 'Don Norman', description: 'Principles of good design in everyday objects.' },
-        { title: 'Steal Like an Artist', author: 'Austin Kleon', description: '10 things nobody told you about being creative.' },
-        { title: 'The Elements of Style', author: 'William Strunk', description: 'Classic guide to writing and design principles.' },
-        { title: 'Thinking with Type', author: 'Ellen Lupton', description: 'A critical guide for designers, writers, and students.' },
-        { title: 'Ways of Seeing', author: 'John Berger', description: 'Understanding visual culture and art perception.' },
-        { title: 'The Artist\'s Way', author: 'Julia Cameron', description: 'A spiritual path to higher creativity.' },
-        { title: 'Creative Confidence', author: 'Tom Kelley', description: 'Unleashing the creative potential within us all.' },
-        { title: 'Logo Design Love', author: 'David Airey', description: 'A guide to creating iconic brand identities.' },
-        { title: 'Color: A Course', author: 'Paul Zelanski', description: 'Mastering color theory in art and design.' },
-        { title: 'Making and Breaking', author: 'Peter Dormer', description: 'The contemporary craft movement analyzed.' }
+    "Fantasy, Sci-Fi & Mystery": [
+        {
+            title: "Harry Potter and the Sorcerer's Stone",
+            author: 'J.K. Rowling',
+            description: "A young wizard's journey begins in this magical adventure.",
+            link: 'https://hazidesaratcollege.ac.in/library/uploads/85jkr_harrypotter_1.pdf'
+        },
+        {
+            title: 'The Hobbit',
+            author: 'J.R.R. Tolkien',
+            description: 'A tale of a small hobbit on an unexpected journey to reclaim treasure.',
+            link: 'https://rsd2-alert-durden-reading-room.weebly.com/uploads/6/7/1/6/6716949/the_hobbit_tolkien.pdf'
+        },
+        {
+            title: 'Dune',
+            author: 'Frank Herbert',
+            description: 'A landmark science fiction epic of politics, religion, and power on a desert planet.',
+            link: 'https://dn720004.ca.archive.org/0/items/english-collections-1/Dune%20Messiah%20-%20Frank%20Herbert.pdf'
+        },
+        {
+            title: 'And Then There Were None',
+            author: 'Agatha Christie',
+            description: 'Ten strangers are lured to an island and picked off one by one. A masterpiece of mystery.',
+            link: 'http://pustaka.unp.ac.id/file/abstrak_kki/EBOOKS/And%20Then%20There%20Were%20None.pdf'
+        }
     ],
-    Psychology: [
-        { title: 'Thinking, Fast and Slow', author: 'Daniel Kahneman', description: 'The two systems that drive how we think.' },
-        { title: 'Influence', author: 'Robert Cialdini', description: 'The psychology of persuasion and decision making.' },
-        { title: 'Predictably Irrational', author: 'Dan Ariely', description: 'The hidden forces that shape our decisions.' },
-        { title: 'The Body Keeps Score', author: 'Bessel van der Kolk', description: 'Brain, mind, and body in healing trauma.' },
-        { title: 'Flow', author: 'Mihaly Csikszentmihalyi', description: 'The psychology of optimal experience.' },
-        { title: 'Emotional Intelligence', author: 'Daniel Goleman', description: 'Why EQ matters more than IQ.' },
-        { title: 'The Lucifer Effect', author: 'Philip Zimbardo', description: 'Understanding how good people turn evil.' },
-        { title: 'Quiet', author: 'Susan Cain', description: 'The power of introverts in a world that can\'t stop talking.' },
-        { title: 'The Happiness Hypothesis', author: 'Jonathan Haidt', description: 'Finding modern truth in ancient wisdom.' },
-        { title: 'Blink', author: 'Malcolm Gladwell', description: 'The power of thinking without thinking.' }
+    "Religious & Philosophical Texts": [
+        {
+            title: 'Bhagavad Gita',
+            author: '',
+            description: 'An ancient Indian scripture offering profound insights on duty, action, and the nature of existence.',
+            link: 'https://ignca.gov.in/Asi_data/279.pdf'
+        },
+        {
+            title: 'The Quran',
+            author: '',
+            description: 'The central religious text of Islam, believed to be a revelation from God (Allah).',
+            link: 'https://www.pdfquran.com/download/big/big-quran.pdf'
+        },
+        {
+            title: 'The Bible',
+            author: '',
+            description: 'A collection of religious texts or scriptures sacred to Christians, Jews, Samaritans, and others.',
+            link: 'https://www.churchofjesuschrist.org/bc/content/shared/content/english/pdf/language-materials/83512_eng.pdf'
+        },
+        {
+            title: 'The Dhammapada',
+            author: '',
+            description: 'A collection of sayings of the Buddha in verse form and one of the most widely read Buddhist scriptures.',
+            link: 'https://www.buddhanet.net/pdf_file/scrndhamma.pdf'
+        }
     ],
-    Philosophy: [
-        { title: 'Meditations', author: 'Marcus Aurelius', description: 'Stoic philosophy and personal reflections of a Roman emperor.' },
-        { title: 'The Republic', author: 'Plato', description: 'Justice, the ideal state, and the nature of reality.' },
-        { title: 'Thus Spoke Zarathustra', author: 'Friedrich Nietzsche', description: 'A philosophical novel about the Übermensch.' },
-        { title: 'Being and Time', author: 'Martin Heidegger', description: 'An inquiry into the meaning of being.' },
-        { title: 'The Consolation', author: 'Boethius', description: 'Philosophy as comfort in times of trouble.' },
-        { title: 'Ethics', author: 'Spinoza', description: 'Demonstrated in geometrical order.' },
-        { title: 'Critique of Pure Reason', author: 'Immanuel Kant', description: 'The limits and scope of human knowledge.' },
-        { title: 'The Phenomenology', author: 'Georg Hegel', description: 'Spirit\'s journey to absolute knowledge.' },
-        { title: 'Beyond Good and Evil', author: 'Friedrich Nietzsche', description: 'Challenging traditional morality and truth.' },
-        { title: 'The Myth of Sisyphus', author: 'Albert Camus', description: 'The absurd and the meaning of life.' }
+    "Graphic Novels & Comics": [
+        {
+            title: 'Spider-Man: Into the Spider-Verse',
+            author: '',
+            description: 'A comic exploring different Spider-Man universes and characters.',
+            link: 'https://ia600404.us.archive.org/13/items/across-the-spider-verse-the-art-of-the-movie/Spider-Man%20Across%20the%20Spider-Verse%20The%20Art%20of%20the%20Movie_text.pdf'
+        },
+        {
+            title: 'The Avengers',
+            author: '',
+            description: 'The Avengers team up to fight against an alien invasion.',
+            link: 'https://drive.google.com/file/d/1SQZSRT8kW8PXr4iP8PZ7CqVWvMtxspE4/view'
+        },
+        {
+            title: 'Batman: The Killing Joke',
+            author: '',
+            description: "A dark exploration of the Joker's origin and Batman's struggles.",
+            link: 'https://acephalous.typepad.com/files/killingjoke.pdf'
+        },
+        {
+            title: 'X-Men: Dark Phoenix',
+            author: '',
+            description: 'The X-Men battle a powerful force as Jean Grey becomes the Dark Phoenix.',
+            link: 'https://ia601501.us.archive.org/24/items/uncanny-x-men-137-1980-digital-minutemen-syl-3nt-bob/Uncanny%20X-Men%20125%20(1979)%20(digital)%20(Minutemen-Syl3ntBob).pdf'
+        }
     ]
 };
 
+// ---- FETCH COVER IMAGE FUNCTION ----
+async function fetchCoverImage(title, author) {
+    try {
+        const query = `${title} ${author}`.replace(/\s+/g, '+');
+        const searchUrl = `https://openlibrary.org/search.json?title=${query}`;
+        const res = await axios.get(searchUrl);
+
+        if (res.data && res.data.docs && res.data.docs.length > 0) {
+            const book = res.data.docs.find(doc => doc.cover_i);
+            if (book && book.cover_i) {
+                return `https://covers.openlibrary.org/b/id/${book.cover_i}-L.jpg`;
+            }
+        }
+        return null;
+    } catch (err) {
+        console.warn(`⚠️ Could not fetch cover for "${title}"`);
+        return null;
+    }
+}
+
+// ---- SEED FUNCTION ----
 const seedDatabase = async () => {
     try {
+        console.log('🔄 Connecting to MongoDB...');
         await mongoose.connect(process.env.MONGODB_URI, {
             useNewUrlParser: true,
             useUnifiedTopology: true,
         });
-
-        console.log('Connected to MongoDB');
+        console.log('✅ Connected to MongoDB');
 
         await Category.deleteMany({});
         await Book.deleteMany({});
-        console.log('Cleared existing data');
+        console.log('🧹 Cleared old data');
 
         for (const categoryData of categories) {
             const category = await Category.create(categoryData);
-            console.log(`Created category: ${category.name}`);
+            console.log(`📚 Created category: ${category.name}`);
 
             const categoryBooks = booksData[category.name];
             if (categoryBooks) {
                 for (const bookData of categoryBooks) {
+                    let coverImage = bookData.coverImage || null;
+
+                    // If no coverImage, try to fetch one
+                    if (!coverImage) {
+                        coverImage = await fetchCoverImage(bookData.title, bookData.author);
+                    }
+
+                    // If still missing, use a clean fallback
+                    if (!coverImage) {
+                        coverImage = `https://placehold.co/400x600?text=${encodeURIComponent(bookData.title)}`;
+                    }
+
                     const book = await Book.create({
                         ...bookData,
                         category: category._id,
-                        coverImage: `https://images.unsplash.com/photo-${Math.floor(Math.random() * 1000000000000)}?w=400&h=600&fit=crop`,
+                        coverImage: bookData.coverImage, // <-- keep original cover
+                        link: bookData.link,             // <-- keep PDF link
                         likes: Math.floor(Math.random() * 50)
                     });
-                    console.log(`  - Created book: ${book.title}`);
+
+
+                    console.log(`   ➕ Added: ${book.title}`);
                 }
             }
         }
 
-        console.log('Database seeded successfully!');
+        console.log('🎉 Database seeded successfully with real covers!');
         process.exit(0);
-    } catch (error) {
-        console.error('Seeding error:', error);
+    } catch (err) {
+        console.error('❌ Seeding error:', err);
         process.exit(1);
     }
 };

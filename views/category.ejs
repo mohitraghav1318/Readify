@@ -35,8 +35,14 @@
                     <div class="col-md-3">
                         <a href="/library/book/<%= book._id %>" class="text-decoration-none">
                             <div class="card book-card h-100 shadow-sm hover-lift">
-                                <img src="<%= book.coverImage %>" class="card-img-top" alt="<%= book.title %>"
-                                    style="height: 250px; object-fit: cover;">
+                                <div class="row d-flex align-items-center justify-content-center p-3">
+                                    <div
+                                        class="book-cover d-flex align-items-center justify-content-center text-center">
+                                        <span class="book-title">
+                                            <%= book.title %>
+                                        </span>
+                                    </div>
+                                </div>
                                 <div class="card-body">
                                     <h6 class="card-title">
                                         <%= book.title %>
@@ -61,5 +67,6 @@
                             <% } %>
         </div>
     </div>
+
 
     <%- include('partials/footer') %>

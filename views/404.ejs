@@ -1,14 +1,333 @@
 <%- include('partials/header') %>
 
-    <div class="container my-5 text-center">
-        <div class="py-5">
-            <h1 class="display-1 fw-bold text-primary">404</h1>
-            <h2 class="mb-4">Page Not Found</h2>
-            <p class="lead text-muted mb-4">The page you're looking for doesn't exist or has been moved.</p>
-            <a href="/" class="btn btn-primary btn-lg">
-                <i class="bi bi-house"></i> Go Home
-            </a>
+    <div class="error-404-page">
+        <div class="container">
+            <div class="error-content">
+                <!-- 404 Number -->
+                <div class="error-number">
+                    <span class="digit">4</span>
+                    <span class="digit digit-zero">0</span>
+                    <span class="digit">4</span>
+                </div>
+
+                <!-- Error Message -->
+                <h2 class="error-title">Oops! Page Not Found</h2>
+                <p class="error-description">
+                    The page you're looking for doesn't exist or has been moved.
+                    <br>
+                    Let's get you back on track!
+                </p>
+
+                <!-- Action Buttons -->
+                <div class="error-actions">
+                    <a href="/" class="btn-home">
+                        <i class="bi bi-house-door"></i>
+                        <span>Go to Homepage</span>
+                    </a>
+                    <a href="/library" class="btn-library">
+                        <i class="bi bi-collection"></i>
+                        <span>Browse Library</span>
+                    </a>
+                </div>
+
+                <!-- Helpful Links -->
+                <div class="helpful-links">
+                    <p class="links-title">You might be looking for:</p>
+                    <div class="links-grid">
+                        <a href="/library" class="link-item">
+                            <i class="bi bi-book"></i>
+                            <span>Library</span>
+                        </a>
+                        <a href="/dashboard" class="link-item">
+                            <i class="bi bi-speedometer2"></i>
+                            <span>Dashboard</span>
+                        </a>
+                        <a href="/about" class="link-item">
+                            <i class="bi bi-info-circle"></i>
+                            <span>About Us</span>
+                        </a>
+                        <a href="/contact" class="link-item">
+                            <i class="bi bi-envelope"></i>
+                            <span>Contact</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
+
+    <style>
+        /* ==========================================
+   404 ERROR PAGE - EMBEDDED STYLES
+   ========================================== */
+
+        .error-404-page {
+            min-height: calc(100vh - 300px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 3rem 0;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .error-404-page::before {
+            content: '404';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 25rem;
+            font-weight: 900;
+            color: rgba(1, 28, 64, 0.02);
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+        }
+
+        .error-content {
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* ==========================================
+   ERROR NUMBER
+   ========================================== */
+
+        .error-number {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .digit {
+            font-size: 8rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, #011C40, #023859, #26658C);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1;
+            position: relative;
+        }
+
+        .digit-zero {
+            position: relative;
+        }
+
+        .digit-zero::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80%;
+            height: 80%;
+            border: 8px solid #023859;
+            border-radius: 50%;
+            opacity: 0.3;
+        }
+
+        /* ==========================================
+   ERROR MESSAGE
+   ========================================== */
+
+        .error-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #011C40;
+            margin-bottom: 1rem;
+        }
+
+        .error-description {
+            font-size: 1.15rem;
+            color: #6c757d;
+            line-height: 1.6;
+            margin-bottom: 2.5rem;
+        }
+
+        /* ==========================================
+   ACTION BUTTONS
+   ========================================== */
+
+        .error-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .btn-home,
+        .btn-library {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1rem 2rem;
+            border-radius: 15px;
+            font-weight: 600;
+            font-size: 1rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .btn-home {
+            background: linear-gradient(135deg, #011C40, #023859);
+            color: white;
+            box-shadow: 0 5px 20px rgba(1, 28, 64, 0.2);
+        }
+
+        .btn-home:hover {
+            background: linear-gradient(135deg, #023859, #26658C);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(1, 28, 64, 0.3);
+            color: white;
+        }
+
+        .btn-library {
+            background: white;
+            color: #011C40;
+            border: 2px solid #011C40;
+        }
+
+        .btn-library:hover {
+            background: #011C40;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        /* ==========================================
+   HELPFUL LINKS
+   ========================================== */
+
+        .helpful-links {
+            background: white;
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 5px 20px rgba(1, 28, 64, 0.08);
+        }
+
+        .links-title {
+            font-size: 1rem;
+            color: #6c757d;
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+        }
+
+        .links-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 1rem;
+        }
+
+        .link-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1.25rem;
+            background: linear-gradient(135deg, rgba(1, 28, 64, 0.03), rgba(38, 101, 140, 0.03));
+            border-radius: 12px;
+            text-decoration: none;
+            color: #011C40;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .link-item:hover {
+            background: linear-gradient(135deg, #011C40, #023859);
+            color: white;
+            transform: translateY(-3px);
+            border-color: #011C40;
+        }
+
+        .link-item i {
+            font-size: 1.8rem;
+        }
+
+        .link-item span {
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        /* ==========================================
+   RESPONSIVE DESIGN
+   ========================================== */
+
+        @media (max-width: 768px) {
+            .error-404-page::before {
+                font-size: 15rem;
+            }
+
+            .digit {
+                font-size: 5rem;
+            }
+
+            .error-title {
+                font-size: 2rem;
+            }
+
+            .error-description {
+                font-size: 1rem;
+            }
+
+            .error-actions {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .btn-home,
+            .btn-library {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .links-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 576px) {
+            .error-404-page::before {
+                font-size: 10rem;
+            }
+
+            .digit {
+                font-size: 4rem;
+            }
+
+            .error-number {
+                gap: 1rem;
+            }
+
+            .error-title {
+                font-size: 1.75rem;
+            }
+
+            .helpful-links {
+                padding: 1.5rem;
+            }
+
+            .links-grid {
+                gap: 0.75rem;
+            }
+
+            .link-item {
+                padding: 1rem;
+            }
+
+            .link-item i {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
 
     <%- include('partials/footer') %>

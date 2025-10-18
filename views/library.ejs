@@ -1,37 +1,982 @@
 <%- include('partials/header') %>
 
-    <div class="container my-5">
-        <h1 class="mb-4">
-            <i class="bi bi-collection"></i> Library - All Categories
-        </h1>
-
-        <div class="row g-4">
-            <% if (categories && categories.length> 0) { %>
-                <% categories.forEach(category=> { %>
-                    <div class="col-md-4 col-lg-3">
-                        <a href="/library/category/<%= category._id %>" class="text-decoration-none">
-                            <div class="card category-card h-100 shadow-sm hover-lift">
-                                <img src="<%= category.coverImage %>" class="card-img-top" alt="<%= category.name %>"
-                                    style="height: 200px; object-fit: cover;">
-                                <div class="card-body">
-                                    <h5 class="card-title">
-                                        <%= category.name %>
-                                    </h5>
-                                    <p class="card-text text-muted">
-                                        <%= category.description.substring(0, 80) %>...
-                                    </p>
-                                </div>
-                            </div>
-                        </a>
+    <div class="library-page">
+        <!-- Page Header -->
+        <div class="library-header">
+            <div class="animated-bg-shapes">
+                <div class="shape shape-1"></div>
+                <div class="shape shape-2"></div>
+                <div class="shape shape-3"></div>
+            </div>
+            <div class="container">
+                <div class="header-content">
+                    <div class="header-icon">
+                        <i class="bi bi-collection"></i>
                     </div>
-                    <% }); %>
-                        <% } else { %>
-                            <div class="col-12 text-center text-muted py-5">
-                                <i class="bi bi-inbox fs-1"></i>
-                                <p class="mt-3">No categories available yet. Check back soon!</p>
+                    <div class="header-text">
+                        <h1 class="page-title">Explore Our Library</h1>
+                        <p class="page-subtitle">Discover thousands of books across multiple categories</p>
+                        <div class="stats-row">
+                            <div class="stat-box">
+                                <i class="bi bi-book-fill"></i>
+                                <span>
+                                    <%= categories ? categories.length : 0 %> Categories
+                                </span>
                             </div>
-                            <% } %>
+                            <div class="stat-box">
+                                <i class="bi bi-star-fill"></i>
+                                <span>Featured Collection</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="header-wave">
+                <svg viewBox="0 0 1440 100" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M0,50 C240,80 480,20 720,50 C960,80 1200,20 1440,50 L1440,100 L0,100 Z" fill="white" />
+                </svg>
+            </div>
+        </div>
+
+        <!-- Categories Section -->
+        <div class="container my-5">
+            <div class="categories-intro">
+                <h2 class="section-title">All Categories</h2>
+                <p class="section-description">Browse through our carefully curated collection of books</p>
+                <div class="section-divider"></div>
+            </div>
+
+            <div class="row g-4">
+                <% if (categories && categories.length> 0) { %>
+                    <% categories.forEach((category, index)=> { %>
+                        <div class="col-xl-3 col-lg-4 col-md-6" style="animation-delay: <%= index * 0.1 %>s;">
+                            <a href="/library/category/<%= category._id %>" class="category-link">
+                                <div class="category-card-modern">
+                                    <div class="category-image-container">
+                                        <img src="<%= category.coverImage %>" class="category-image"
+                                            alt="<%= category.name %>" loading="lazy">
+                                        <div class="category-overlay">
+                                            <div class="overlay-content">
+                                                <i class="bi bi-arrow-right-circle"></i>
+                                                <span>Explore Category</span>
+                                            </div>
+                                        </div>
+                                        <div class="category-badge-corner">
+                                            <i class="bi bi-bookmark-fill"></i>
+                                        </div>
+                                        <div class="image-shine"></div>
+                                    </div>
+                                    <div class="category-content">
+                                        <h5 class="category-name">
+                                            <%= category.name %>
+                                        </h5>
+                                        <p class="category-desc">
+                                            <%= category.description.substring(0, 80) %>...
+                                        </p>
+                                        <div class="category-footer">
+                                            <span class="view-link">
+                                                View Books
+                                                <i class="bi bi-arrow-right"></i>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        <% }); %>
+                            <% } else { %>
+                                <div class="col-12">
+                                    <div class="empty-library-state">
+                                        <div class="empty-icon-wrapper">
+                                            <i class="bi bi-inbox"></i>
+                                        </div>
+                                        <h3 class="empty-title">No Categories Available</h3>
+                                        <p class="empty-text">
+                                            Our library is currently being updated. Please check back soon for exciting
+                                            new categories and books!
+                                        </p>
+                                        <a href="/" class="btn btn-primary btn-lg">
+                                            <i class="bi bi-house"></i>
+                                            Back to Home
+                                        </a>
+                                    </div>
+                                </div>
+                                <% } %>
+            </div>
+
+            <!-- Floating Action Button -->
+            <div class="floating-scroll-top" id="scrollTop">
+                <i class="bi bi-arrow-up"></i>
+            </div>
         </div>
     </div>
+
+    <style>
+        /* ==========================================
+   LIBRARY PAGE - EMBEDDED STYLES
+   ========================================== */
+
+        .library-page {
+            min-height: calc(100vh - 200px);
+            padding-bottom: 3rem;
+        }
+
+        /* ==========================================
+   ANIMATED HEADER
+   ========================================== */
+
+        .library-header {
+            position: relative;
+            background: linear-gradient(135deg, #011C40, #023859, #26658C);
+            padding: 5rem 0 4rem;
+            margin-bottom: 3rem;
+            overflow: hidden;
+        }
+
+        .animated-bg-shapes {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 0;
+        }
+
+        .shape {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            animation: float-shapes 20s infinite ease-in-out;
+        }
+
+        .shape-1 {
+            width: 300px;
+            height: 300px;
+            top: -100px;
+            left: -100px;
+            animation-delay: 0s;
+            animation-duration: 25s;
+        }
+
+        .shape-2 {
+            width: 200px;
+            height: 200px;
+            bottom: -50px;
+            right: 10%;
+            animation-delay: -8s;
+            animation-duration: 20s;
+        }
+
+        .shape-3 {
+            width: 250px;
+            height: 250px;
+            top: 50%;
+            right: -80px;
+            animation-delay: -15s;
+            animation-duration: 22s;
+        }
+
+        @keyframes float-shapes {
+
+            0%,
+            100% {
+                transform: translate(0, 0) rotate(0deg);
+                opacity: 0.3;
+            }
+
+            25% {
+                transform: translate(30px, -30px) rotate(90deg);
+                opacity: 0.5;
+            }
+
+            50% {
+                transform: translate(-20px, 20px) rotate(180deg);
+                opacity: 0.4;
+            }
+
+            75% {
+                transform: translate(40px, 10px) rotate(270deg);
+                opacity: 0.6;
+            }
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            animation: fadeInUp 0.8s ease;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .header-icon {
+            width: 120px;
+            height: 120px;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+            animation: float-icon 3s ease-in-out infinite;
+            position: relative;
+        }
+
+        .header-icon::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 30px;
+            background: rgba(255, 255, 255, 0.1);
+            animation: pulse-ring 2s infinite;
+        }
+
+        @keyframes pulse-ring {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+
+            100% {
+                transform: scale(1.3);
+                opacity: 0;
+            }
+        }
+
+        @keyframes float-icon {
+
+            0%,
+            100% {
+                transform: translateY(0) rotate(0deg);
+            }
+
+            50% {
+                transform: translateY(-15px) rotate(5deg);
+            }
+        }
+
+        .header-icon i {
+            font-size: 3.5rem;
+            color: white;
+            z-index: 1;
+        }
+
+        .header-text {
+            flex: 1;
+        }
+
+        .page-title {
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 0.75rem;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+            animation: slideInRight 0.8s ease;
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .page-subtitle {
+            font-size: 1.3rem;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 1.5rem;
+            animation: slideInRight 0.8s ease 0.2s both;
+        }
+
+        .stats-row {
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            animation: fadeIn 1s ease 0.4s both;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        .stat-box {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1.5rem;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border-radius: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .stat-box:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-3px);
+        }
+
+        .stat-box i {
+            font-size: 1.3rem;
+        }
+
+        .header-wave {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1;
+            animation: wave-move 3s ease-in-out infinite;
+        }
+
+        @keyframes wave-move {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-5px);
+            }
+        }
+
+        .header-wave svg {
+            width: 100%;
+            height: 100px;
+            display: block;
+        }
+
+        /* ==========================================
+   CATEGORIES INTRO
+   ========================================== */
+
+        .categories-intro {
+            text-align: center;
+            margin-bottom: 3rem;
+            animation: fadeInUp 0.6s ease;
+        }
+
+        .section-title {
+            font-size: 2.8rem;
+            font-weight: 700;
+            color: #011C40;
+            margin-bottom: 0.75rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: -15px;
+            width: 30px;
+            height: 30px;
+            background: linear-gradient(135deg, #26658C, transparent);
+            border-radius: 50%;
+            z-index: -1;
+            opacity: 0.3;
+        }
+
+        .section-description {
+            font-size: 1.2rem;
+            color: #6c757d;
+            margin-bottom: 1.5rem;
+        }
+
+        .section-divider {
+            width: 120px;
+            height: 4px;
+            background: linear-gradient(90deg, #011C40, #023859, #26658C);
+            margin: 0 auto;
+            border-radius: 2px;
+            animation: expand-divider 1s ease;
+        }
+
+        @keyframes expand-divider {
+            from {
+                width: 0;
+            }
+
+            to {
+                width: 120px;
+            }
+        }
+
+        /* ==========================================
+   CATEGORY CARDS WITH ANIMATIONS
+   ========================================== */
+
+        .col-xl-3,
+        .col-lg-4,
+        .col-md-6 {
+            animation: cardFadeIn 0.6s ease both;
+        }
+
+        @keyframes cardFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .category-link {
+            text-decoration: none;
+            display: block;
+        }
+
+        .category-card-modern {
+            background: white;
+            border-radius: 25px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(1, 28, 64, 0.1);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .category-card-modern::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, #011C40, #023859, #26658C);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.5s ease;
+        }
+
+        .category-card-modern:hover {
+            transform: translateY(-15px) scale(1.02);
+            box-shadow: 0 25px 50px rgba(1, 28, 64, 0.2);
+        }
+
+        .category-card-modern:hover::before {
+            transform: scaleX(1);
+        }
+
+        .category-image-container {
+            position: relative;
+            overflow: hidden;
+            height: 280px;
+        }
+
+        .category-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+
+        .category-card-modern:hover .category-image {
+            transform: scale(1.15) rotate(2deg);
+        }
+
+        .image-shine {
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .category-card-modern:hover .image-shine {
+            left: 100%;
+        }
+
+        .category-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(1, 28, 64, 0.95), rgba(2, 56, 89, 0.95));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .category-card-modern:hover .category-overlay {
+            opacity: 1;
+        }
+
+        .overlay-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.25rem;
+            color: white;
+            transform: translateY(30px);
+            transition: transform 0.4s ease;
+        }
+
+        .category-card-modern:hover .overlay-content {
+            transform: translateY(0);
+            animation: bounceIn 0.6s ease;
+        }
+
+        @keyframes bounceIn {
+            0% {
+                transform: scale(0.5);
+                opacity: 0;
+            }
+
+            60% {
+                transform: scale(1.1);
+                opacity: 1;
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .overlay-content i {
+            font-size: 3.5rem;
+            animation: rotate-icon 2s linear infinite;
+        }
+
+        @keyframes rotate-icon {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .overlay-content span {
+            font-size: 1.2rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .category-badge-corner {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            transition: all 0.4s ease;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        .category-card-modern:hover .category-badge-corner {
+            transform: rotate(360deg) scale(1.15);
+            background: linear-gradient(135deg, #011C40, #023859);
+        }
+
+        .category-card-modern:hover .category-badge-corner i {
+            color: white;
+        }
+
+        .category-badge-corner i {
+            color: #023859;
+            font-size: 1.3rem;
+            transition: color 0.4s ease;
+        }
+
+        .category-content {
+            padding: 1.75rem;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .category-name {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #011C40;
+            margin-bottom: 0.75rem;
+            line-height: 1.3;
+            transition: color 0.3s ease;
+        }
+
+        .category-card-modern:hover .category-name {
+            color: #023859;
+        }
+
+        .category-desc {
+            font-size: 1rem;
+            color: #6c757d;
+            line-height: 1.6;
+            margin-bottom: 1.25rem;
+            flex: 1;
+        }
+
+        .category-footer {
+            padding-top: 1.25rem;
+            border-top: 2px solid rgba(1, 28, 64, 0.1);
+        }
+
+        .view-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            color: #023859;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .category-card-modern:hover .view-link {
+            color: #011C40;
+            gap: 1.25rem;
+        }
+
+        .view-link i {
+            transition: transform 0.3s ease;
+            font-size: 1.2rem;
+        }
+
+        .category-card-modern:hover .view-link i {
+            transform: translateX(8px);
+            animation: arrow-bounce 0.6s ease infinite;
+        }
+
+        @keyframes arrow-bounce {
+
+            0%,
+            100% {
+                transform: translateX(8px);
+            }
+
+            50% {
+                transform: translateX(15px);
+            }
+        }
+
+        /* ==========================================
+   EMPTY STATE
+   ========================================== */
+
+        .empty-library-state {
+            text-align: center;
+            padding: 5rem 2rem;
+            background: white;
+            border-radius: 30px;
+            box-shadow: 0 10px 50px rgba(1, 28, 64, 0.1);
+            animation: fadeInScale 0.6s ease;
+        }
+
+        @keyframes fadeInScale {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .empty-icon-wrapper {
+            width: 160px;
+            height: 160px;
+            margin: 0 auto 2.5rem;
+            background: linear-gradient(135deg, rgba(1, 28, 64, 0.1), rgba(38, 101, 140, 0.1));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: pulse-empty 2s infinite;
+        }
+
+        @keyframes pulse-empty {
+
+            0%,
+            100% {
+                transform: scale(1);
+                box-shadow: 0 0 0 0 rgba(1, 28, 64, 0.3);
+            }
+
+            50% {
+                transform: scale(1.05);
+                box-shadow: 0 0 0 30px rgba(1, 28, 64, 0);
+            }
+        }
+
+        .empty-icon-wrapper i {
+            font-size: 5.5rem;
+            color: #023859;
+            animation: shake 3s ease-in-out infinite;
+        }
+
+        @keyframes shake {
+
+            0%,
+            100% {
+                transform: rotate(0deg);
+            }
+
+            25% {
+                transform: rotate(-10deg);
+            }
+
+            75% {
+                transform: rotate(10deg);
+            }
+        }
+
+        .empty-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #011C40;
+            margin-bottom: 1rem;
+        }
+
+        .empty-text {
+            font-size: 1.2rem;
+            color: #6c757d;
+            margin-bottom: 2.5rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.8;
+        }
+
+        /* ==========================================
+   FLOATING SCROLL TO TOP
+   ========================================== */
+
+        .floating-scroll-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 55px;
+            height: 55px;
+            background: linear-gradient(135deg, #011C40, #023859);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 5px 25px rgba(1, 28, 64, 0.3);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(20px);
+            transition: all 0.3s ease;
+            z-index: 999;
+        }
+
+        .floating-scroll-top.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+            animation: bounce-float 2s ease-in-out infinite;
+        }
+
+        @keyframes bounce-float {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        .floating-scroll-top:hover {
+            background: linear-gradient(135deg, #26658C, #023859);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 35px rgba(1, 28, 64, 0.4);
+        }
+
+        /* ==========================================
+   RESPONSIVE DESIGN
+   ========================================== */
+
+        @media (max-width: 991px) {
+            .library-header {
+                padding: 4rem 0 3rem;
+            }
+
+            .header-icon {
+                width: 100px;
+                height: 100px;
+            }
+
+            .header-icon i {
+                font-size: 3rem;
+            }
+
+            .page-title {
+                font-size: 2.8rem;
+            }
+
+            .section-title {
+                font-size: 2.3rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .library-header {
+                padding: 3rem 0 2rem;
+            }
+
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+                gap: 1.5rem;
+            }
+
+            .header-icon {
+                width: 90px;
+                height: 90px;
+            }
+
+            .header-icon i {
+                font-size: 2.5rem;
+            }
+
+            .page-title {
+                font-size: 2.2rem;
+            }
+
+            .page-subtitle {
+                font-size: 1.1rem;
+            }
+
+            .stats-row {
+                justify-content: center;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .category-image-container {
+                height: 240px;
+            }
+
+            .empty-library-state {
+                padding: 4rem 1.5rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .page-title {
+                font-size: 1.8rem;
+            }
+
+            .page-subtitle {
+                font-size: 1rem;
+            }
+
+            .section-title {
+                font-size: 1.7rem;
+            }
+
+            .category-image-container {
+                height: 220px;
+            }
+
+            .floating-scroll-top {
+                width: 50px;
+                height: 50px;
+                bottom: 20px;
+                right: 20px;
+            }
+
+            .empty-icon-wrapper {
+                width: 130px;
+                height: 130px;
+            }
+
+            .empty-icon-wrapper i {
+                font-size: 4.5rem;
+            }
+        }
+    </style>
+
+    <script>
+        // Scroll to top functionality
+        document.addEventListener('DOMContentLoaded', function () {
+            const scrollTopBtn = document.getElementById('scrollTop');
+
+            window.addEventListener('scroll', function () {
+                if (window.scrollY > 300) {
+                    scrollTopBtn.classList.add('show');
+                } else {
+                    scrollTopBtn.classList.remove('show');
+                }
+            });
+
+            scrollTopBtn.addEventListener('click', function () {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
 
     <%- include('partials/footer') %>

@@ -1,116 +1,862 @@
 <%- include('partials/header') %>
 
-    <div class="container my-5">
-        <nav aria-label="breadcrumb">
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="/library">Library</a></li>
-                <li class="breadcrumb-item"><a href="/library/category/<%= book.category._id %>">
-                        <%= book.category.name %>
-                    </a></li>
-                <li class="breadcrumb-item active">
-                    <%= book.title %>
-                </li>
-            </ol>
-        </nav>
-
-        <div class="row">
-            <div class="col-md-4">
-                <img src="<%= book.coverImage %>" class="img-fluid rounded shadow mb-3" alt="<%= book.title %>">
-
-                <div class="d-grid gap-2">
-                    <% if (isAuthenticated) { %>
-                        <form method="POST" action="/library/book/<%= book._id %>/add-to-reading">
-                            <button type="submit" class="btn <%= isReading ? 'btn-success' : 'btn-primary' %> w-100">
-                                <i class="bi <%= isReading ? 'bi-check-circle' : 'bi-plus-circle' %>"></i>
-                                <%= isReading ? 'In My Library' : 'Add to My Library' %>
-                            </button>
-                        </form>
-
-                        <form method="POST" action="/library/book/<%= book._id %>/like">
-                            <button type="submit"
-                                class="btn <%= isLiked ? 'btn-danger' : 'btn-outline-danger' %> w-100">
-                                <i class="bi bi-heart<%= isLiked ? '-fill' : '' %>"></i>
-                                <%= isLiked ? 'Unlike' : 'Like' %> (<%= book.likes %>)
-                            </button>
-                        </form>
-                        <% } else { %>
-                            <a href="/login" class="btn btn-primary">
-                                <i class="bi bi-box-arrow-in-right"></i> Login to Add to Library
+    <div class="book-details-page">
+        <!-- Breadcrumb Section -->
+        <div class="breadcrumb-section">
+            <div class="container">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb custom-breadcrumb">
+                        <li class="breadcrumb-item">
+                            <a href="/">
+                                <i class="bi bi-house-door"></i> Home
                             </a>
-                            <% } %>
-                </div>
+                        </li>
+                        <li class="breadcrumb-item">
+                            <a href="/library">
+                                <i class="bi bi-collection"></i> Library
+                            </a>
+                        </li>
+                        <li class="breadcrumb-item">
+                            <a href="/library/category/<%= book.category._id %>">
+                                <%= book.category.name %>
+                            </a>
+                        </li>
+                        <li class="breadcrumb-item active">
+                            <%= book.title %>
+                        </li>
+                    </ol>
+                </nav>
             </div>
+        </div>
 
-            <div class="col-md-8">
-                <h1 class="mb-3">
-                    <%= book.title %>
-                </h1>
-                <p class="lead text-muted mb-4">By <%= book.author %>
-                </p>
+        <div class="container my-5">
+            <div class="row g-4">
+                <!-- Left Column - Book Cover & Actions -->
+                <div class="col-lg-4 col-md-5">
+                    <div class="book-sidebar">
+                        <!-- Book Cover -->
+                        <div class="book-cover-container">
+                            <div class="book-cover-wrapper">
+                                <div class="book-cover">
+                                    <span class="book-title-display">
+                                        <%= book.title %>
+                                    </span>
+                                </div>
+                                <div class="book-shine"></div>
+                            </div>
+                        </div>
 
-                <div class="mb-4">
-                    <span class="badge bg-primary">
-                        <%= book.category.name %>
-                    </span>
-                    <span class="badge bg-secondary"><i class="bi bi-heart-fill"></i>
-                        <%= book.likes %> likes
-                    </span>
+                        <!-- Action Buttons -->
+                        <div class="action-buttons">
+                            <% if (isAuthenticated) { %>
+                                <form method="POST" action="/library/book/<%= book._id %>/add-to-reading">
+                                    <button type="submit" class="btn-action <%= isReading ? 'btn-added' : 'btn-add' %>">
+                                        <i class="bi <%= isReading ? 'bi-check-circle-fill' : 'bi-plus-circle' %>"></i>
+                                        <span>
+                                            <%= isReading ? 'In My Library' : 'Add to My Library' %>
+                                        </span>
+                                    </button>
+                                </form>
+
+                                <form method="POST" action="/library/book/<%= book._id %>/like">
+                                    <button type="submit" class="btn-action <%= isLiked ? 'btn-liked' : 'btn-like' %>">
+                                        <i class="bi bi-heart<%= isLiked ? '-fill' : '' %>"></i>
+                                        <span>
+                                            <%= isLiked ? 'Unlike' : 'Like' %>
+                                        </span>
+                                        <span class="like-count">(<%= book.likes %>)</span>
+                                    </button>
+                                </form>
+
+                                <a href="/library/book/<%= book._id %>/read" class="btn-action btn-read">
+                                    <i class="bi bi-book-half"></i>
+                                    <span>Read Now</span>
+                                </a>
+                                <% } else { %>
+                                    <a href="/login" class="btn-action btn-login">
+                                        <i class="bi bi-box-arrow-in-right"></i>
+                                        <span>Login to Add to Library</span>
+                                    </a>
+                                    <% } %>
+                        </div>
+
+                        <!-- Book Stats -->
+                        <div class="book-stats-card">
+                            <h6 class="stats-title">Book Statistics</h6>
+                            <div class="stat-item">
+                                <i class="bi bi-heart-fill"></i>
+                                <span>
+                                    <%= book.likes %> Likes
+                                </span>
+                            </div>
+                            <div class="stat-item">
+                                <i class="bi bi-chat-dots-fill"></i>
+                                <span>
+                                    <%= comments.length %> Comments
+                                </span>
+                            </div>
+                            <div class="stat-item">
+                                <i class="bi bi-bookmark-fill"></i>
+                                <span>
+                                    <%= book.category.name %>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
-                <h5>Description</h5>
-                <p>
-                    <%= book.description %>
-                </p>
+                <!-- Right Column - Book Details -->
+                <div class="col-lg-8 col-md-7">
+                    <div class="book-details-content">
+                        <!-- Book Header -->
+                        <div class="book-header">
+                            <h1 class="book-title-main">
+                                <%= book.title %>
+                            </h1>
+                            <p class="book-author">
+                                <i class="bi bi-person-circle"></i>
+                                By <strong>
+                                    <%= book.author %>
+                                </strong>
+                            </p>
 
-                <hr class="my-4">
-
-                <h4 class="mb-3">Comments (<%= comments.length %>)</h4>
-
-                <% if (isAuthenticated) { %>
-                    <form method="POST" action="/library/book/<%= book._id %>/comment" class="mb-4">
-                        <div class="mb-3">
-                            <textarea name="text" class="form-control" rows="3"
-                                placeholder="Share your thoughts about this book..." required></textarea>
+                            <div class="book-badges">
+                                <span class="custom-badge category-badge">
+                                    <i class="bi bi-tag-fill"></i>
+                                    <%= book.category.name %>
+                                </span>
+                                <span class="custom-badge likes-badge">
+                                    <i class="bi bi-heart-fill"></i>
+                                    <%= book.likes %> likes
+                                </span>
+                            </div>
                         </div>
-                        <button type="submit" class="btn btn-primary">
-                            <i class="bi bi-chat-left-text"></i> Post Comment
-                        </button>
-                    </form>
-                    <% } else { %>
-                        <div class="alert alert-info mb-4">
-                            <a href="/login">Login</a> to post comments
-                        </div>
-                        <% } %>
 
-                            <div class="comments-section">
-                                <% if (comments && comments.length> 0) { %>
-                                    <% comments.forEach(comment=> { %>
-                                        <div class="card mb-3">
-                                            <div class="card-body">
-                                                <div class="d-flex justify-content-between align-items-start">
-                                                    <div>
-                                                        <h6 class="card-subtitle mb-2 text-muted">
-                                                            <i class="bi bi-person-circle"></i>
-                                                            <%= comment.user.fullName %>
-                                                        </h6>
-                                                        <p class="card-text">
+                        <!-- Book Description -->
+                        <div class="book-description-section">
+                            <h5 class="section-heading">
+                                <i class="bi bi-book"></i>
+                                Description
+                            </h5>
+                            <p class="book-description">
+                                <%= book.description %>
+                            </p>
+                        </div>
+
+                        <hr class="section-divider">
+
+                        <!-- Comments Section -->
+                        <div class="comments-wrapper">
+                            <h4 class="comments-header">
+                                <i class="bi bi-chat-square-text"></i>
+                                Comments
+                                <span class="comment-count">(<%= comments.length %>)</span>
+                            </h4>
+
+                            <!-- Comment Form -->
+                            <% if (isAuthenticated) { %>
+                                <form method="POST" action="/library/book/<%= book._id %>/comment" class="comment-form">
+                                    <div class="form-group">
+                                        <textarea name="text" class="comment-input" rows="4"
+                                            placeholder="Share your thoughts about this book..." required></textarea>
+                                    </div>
+                                    <button type="submit" class="btn-submit-comment">
+                                        <i class="bi bi-send-fill"></i>
+                                        <span>Post Comment</span>
+                                    </button>
+                                </form>
+                                <% } else { %>
+                                    <div class="login-prompt">
+                                        <i class="bi bi-info-circle"></i>
+                                        <a href="/login">Login</a> to post comments and share your thoughts
+                                    </div>
+                                    <% } %>
+
+                                        <!-- Comments List -->
+                                        <div class="comments-list">
+                                            <% if (comments && comments.length> 0) { %>
+                                                <% comments.forEach(comment=> { %>
+                                                    <div class="comment-card">
+                                                        <div class="comment-header">
+                                                            <div class="comment-user">
+                                                                <div class="user-avatar">
+                                                                    <i class="bi bi-person-circle"></i>
+                                                                </div>
+                                                                <div class="user-info">
+                                                                    <h6 class="user-name">
+                                                                        <%= comment.user.fullName %>
+                                                                    </h6>
+                                                                    <span class="comment-date">
+                                                                        <i class="bi bi-clock"></i>
+                                                                        <%= new
+                                                                            Date(comment.createdAt).toLocaleDateString('en-US',
+                                                                            { year: 'numeric' , month: 'short' ,
+                                                                            day: 'numeric' }) %>
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <p class="comment-text">
                                                             <%= comment.text %>
                                                         </p>
                                                     </div>
-                                                    <small class="text-muted">
-                                                        <%= new Date(comment.createdAt).toLocaleDateString() %>
-                                                    </small>
-                                                </div>
-                                            </div>
+                                                    <% }); %>
+                                                        <% } else { %>
+                                                            <div class="no-comments">
+                                                                <i class="bi bi-chat"></i>
+                                                                <p>No comments yet. Be the first to share your thoughts!
+                                                                </p>
+                                                            </div>
+                                                            <% } %>
                                         </div>
-                                        <% }); %>
-                                            <% } else { %>
-                                                <p class="text-muted">No comments yet. Be the first to share your
-                                                    thoughts!</p>
-                                                <% } %>
-                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
+
+    <style>
+        /* ==========================================
+   BOOK DETAILS PAGE - EMBEDDED STYLES
+   ========================================== */
+
+        .book-details-page {
+            min-height: calc(100vh - 200px);
+            padding-bottom: 3rem;
+        }
+
+        /* Breadcrumb Section */
+        .breadcrumb-section {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 1.5rem 0;
+            border-bottom: 1px solid rgba(1, 28, 64, 0.1);
+            margin-bottom: 2rem;
+        }
+
+        .custom-breadcrumb {
+            background: transparent;
+            margin: 0;
+            padding: 0;
+        }
+
+        .custom-breadcrumb .breadcrumb-item a {
+            color: #023859;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .custom-breadcrumb .breadcrumb-item a:hover {
+            color: #011C40;
+            transform: translateX(3px);
+        }
+
+        .custom-breadcrumb .breadcrumb-item.active {
+            color: #26658C;
+            font-weight: 600;
+        }
+
+        /* Book Sidebar */
+        .book-sidebar {
+            position: sticky;
+            top: 100px;
+        }
+
+        .book-cover-container {
+            margin-bottom: 2rem;
+            perspective: 1000px;
+        }
+
+        .book-cover-wrapper {
+            position: relative;
+            animation: fadeInUp 0.6s ease;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .book-cover {
+            width: 100%;
+            aspect-ratio: 3/4;
+            background: linear-gradient(135deg, #011C40, #023859, #26658C);
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(1, 28, 64, 0.3);
+            padding: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .book-cover:hover {
+            transform: translateY(-10px) rotateY(5deg);
+            box-shadow: 0 30px 70px rgba(1, 28, 64, 0.4);
+        }
+
+        .book-cover::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, transparent 30%, rgba(255, 255, 255, 0.1) 50%, transparent 70%);
+            animation: shine 3s infinite;
+        }
+
+        @keyframes shine {
+
+            0%,
+            100% {
+                transform: translateX(-100%);
+            }
+
+            50% {
+                transform: translateX(100%);
+            }
+        }
+
+        .book-title-display {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: white;
+            word-wrap: break-word;
+            z-index: 1;
+            position: relative;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+            line-height: 1.4;
+        }
+
+        /* Action Buttons */
+        .action-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .btn-action {
+            width: 100%;
+            padding: 1rem 1.5rem;
+            border: none;
+            border-radius: 15px;
+            font-weight: 600;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-action::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .btn-action:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .btn-action i {
+            font-size: 1.2rem;
+        }
+
+        .btn-add {
+            background: linear-gradient(135deg, #011C40, #023859);
+            color: white;
+            box-shadow: 0 4px 15px rgba(1, 28, 64, 0.3);
+        }
+
+        .btn-add:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(1, 28, 64, 0.4);
+        }
+
+        .btn-added {
+            background: linear-gradient(135deg, #28a745, #20c997);
+            color: white;
+            box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
+        }
+
+        .btn-added:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(40, 167, 69, 0.4);
+        }
+
+        .btn-like {
+            background: white;
+            color: #dc3545;
+            border: 2px solid #dc3545;
+        }
+
+        .btn-like:hover {
+            background: #dc3545;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .btn-liked {
+            background: linear-gradient(135deg, #dc3545, #c82333);
+            color: white;
+            box-shadow: 0 4px 15px rgba(220, 53, 69, 0.3);
+            animation: heartBeat 0.6s;
+        }
+
+        @keyframes heartBeat {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            25% {
+                transform: scale(1.1);
+            }
+
+            50% {
+                transform: scale(0.95);
+            }
+        }
+
+        .btn-read {
+            background: linear-gradient(135deg, #ffc107, #ff9800);
+            color: #000;
+            box-shadow: 0 4px 15px rgba(255, 193, 7, 0.3);
+        }
+
+        .btn-read:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 193, 7, 0.4);
+        }
+
+        .btn-login {
+            background: linear-gradient(135deg, #6c757d, #495057);
+            color: white;
+        }
+
+        /* Book Stats Card */
+        .book-stats-card {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: 0 5px 20px rgba(1, 28, 64, 0.08);
+            animation: fadeIn 0.8s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        .stats-title {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #011C40;
+            margin-bottom: 1rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid #e9ecef;
+        }
+
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 0;
+            color: #495057;
+            transition: all 0.3s ease;
+        }
+
+        .stat-item:hover {
+            color: #023859;
+            transform: translateX(5px);
+        }
+
+        .stat-item i {
+            font-size: 1.2rem;
+            color: #023859;
+        }
+
+        /* Book Details Content */
+        .book-details-content {
+            animation: fadeInUp 0.6s ease 0.2s both;
+        }
+
+        .book-header {
+            margin-bottom: 2rem;
+        }
+
+        .book-title-main {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #011C40;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        .book-author {
+            font-size: 1.2rem;
+            color: #6c757d;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .book-author i {
+            font-size: 1.5rem;
+            color: #023859;
+        }
+
+        .book-badges {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .custom-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.6rem 1.2rem;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            animation: slideIn 0.5s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .category-badge {
+            background: linear-gradient(135deg, rgba(1, 28, 64, 0.1), rgba(38, 101, 140, 0.1));
+            color: #023859;
+            border: 1px solid rgba(1, 28, 64, 0.2);
+        }
+
+        .likes-badge {
+            background: linear-gradient(135deg, rgba(220, 53, 69, 0.1), rgba(220, 53, 69, 0.2));
+            color: #dc3545;
+            border: 1px solid rgba(220, 53, 69, 0.2);
+        }
+
+        .book-description-section {
+            margin-bottom: 2rem;
+        }
+
+        .section-heading {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #011C40;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .section-heading i {
+            color: #023859;
+        }
+
+        .book-description {
+            font-size: 1.05rem;
+            color: #495057;
+            line-height: 1.8;
+        }
+
+        .section-divider {
+            border: none;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #e9ecef, transparent);
+            margin: 2rem 0;
+        }
+
+        /* Comments Section */
+        .comments-wrapper {
+            margin-top: 2rem;
+        }
+
+        .comments-header {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #011C40;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .comments-header i {
+            color: #023859;
+        }
+
+        .comment-count {
+            font-size: 1.2rem;
+            color: #6c757d;
+        }
+
+        .comment-form {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(1, 28, 64, 0.08);
+            margin-bottom: 2rem;
+        }
+
+        .comment-input {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid #e9ecef;
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            resize: vertical;
+            margin-bottom: 1rem;
+        }
+
+        .comment-input:focus {
+            outline: none;
+            border-color: #023859;
+            box-shadow: 0 0 0 3px rgba(2, 56, 89, 0.1);
+        }
+
+        .btn-submit-comment {
+            background: linear-gradient(135deg, #011C40, #023859);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 25px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-submit-comment:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(1, 28, 64, 0.3);
+        }
+
+        .login-prompt {
+            background: linear-gradient(135deg, rgba(1, 28, 64, 0.05), rgba(38, 101, 140, 0.05));
+            padding: 1.5rem;
+            border-radius: 12px;
+            border-left: 4px solid #023859;
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            color: #495057;
+        }
+
+        .login-prompt i {
+            font-size: 1.5rem;
+            color: #023859;
+        }
+
+        .login-prompt a {
+            color: #023859;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .login-prompt a:hover {
+            text-decoration: underline;
+        }
+
+        .comments-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .comment-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(1, 28, 64, 0.08);
+            border-left: 4px solid #023859;
+            transition: all 0.3s ease;
+            animation: slideInComment 0.5s ease;
+        }
+
+        @keyframes slideInComment {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .comment-card:hover {
+            transform: translateX(5px);
+            box-shadow: 0 8px 30px rgba(1, 28, 64, 0.12);
+        }
+
+        .comment-header {
+            margin-bottom: 1rem;
+        }
+
+        .comment-user {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .user-avatar {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #011C40, #023859);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.8rem;
+        }
+
+        .user-info {
+            flex: 1;
+        }
+
+        .user-name {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #011C40;
+            margin: 0;
+        }
+
+        .comment-date {
+            font-size: 0.85rem;
+            color: #6c757d;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .comment-text {
+            font-size: 1rem;
+            color: #495057;
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        .no-comments {
+            text-align: center;
+            padding: 3rem 2rem;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(1, 28, 64, 0.08);
+        }
+
+        .no-comments i {
+            font-size: 4rem;
+            color: #e9ecef;
+            margin-bottom: 1rem;
+        }
+
+        .no-comments p {
+            color: #6c757d;
+            font-size: 1.1rem;
+            margin: 0;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 991px) {
+            .book-sidebar {
+                position: static;
+                margin-bottom: 2rem;
+            }
+
+            .book-title-main {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .book-title-main {
+                font-size: 1.75rem;
+            }
+
+            .book-author {
+                font-size: 1.1rem;
+            }
+
+            .comments-header {
+                font-size: 1.5rem;
+            }
+
+            .book-title-display {
+                font-size: 1.2rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .book-title-main {
+                font-size: 1.5rem;
+            }
+
+            .btn-action {
+                padding: 0.85rem 1rem;
+                font-size: 0.95rem;
+            }
+
+            .book-title-display {
+                font-size: 1rem;
+            }
+
+            .comment-form {
+                padding: 1rem;
+            }
+        }
+    </style>
 
     <%- include('partials/footer') %>

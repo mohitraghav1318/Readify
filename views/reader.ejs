@@ -1,0 +1,754 @@
+<%- include('partials/header') %>
+
+  <div class="read-book-page">
+    <!-- Page Header -->
+    <div class="read-header">
+      <div class="container">
+        <div class="breadcrumb-nav">
+          <a href="/library" class="breadcrumb-link">
+            <i class="bi bi-collection"></i>
+            Library
+          </a>
+          <i class="bi bi-chevron-right"></i>
+          <a href="/library/book/<%= book._id %>" class="breadcrumb-link">
+            Book Details
+          </a>
+          <i class="bi bi-chevron-right"></i>
+          <span class="breadcrumb-current">Read</span>
+        </div>
+      </div>
+      <div class="header-particles">
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+      </div>
+    </div>
+
+    <div class="container my-5">
+      <div class="read-card">
+        <div class="row g-0">
+          <!-- Book Cover Section -->
+          <div class="col-lg-4 col-md-5">
+            <div class="book-cover-section">
+              <div class="book-cover-wrapper">
+                <div class="book-cover-gradient">
+                  <span class="book-title-display">
+                    <%= book.title %>
+                  </span>
+                </div>
+                <div class="book-shine"></div>
+              </div>
+
+              <!-- Book Info Badge -->
+              <div class="book-info-badge">
+                <div class="info-item">
+                  <i class="bi bi-person-circle"></i>
+                  <span class="info-label">Author</span>
+                </div>
+                <p class="info-value">
+                  <%= book.author || 'Unknown Author' %>
+                </p>
+              </div>
+
+              <% if (book.category) { %>
+                <div class="category-tag">
+                  <i class="bi bi-tag-fill"></i>
+                  <%= book.category.name %>
+                </div>
+                <% } %>
+            </div>
+          </div>
+
+          <!-- Book Content Section -->
+          <div class="col-lg-8 col-md-7">
+            <div class="book-content-section">
+              <!-- Book Title -->
+              <h1 class="book-title-main">
+                <%= book.title %>
+              </h1>
+
+              <p class="book-author">
+                <i class="bi bi-pen"></i>
+                by <strong>
+                  <%= book.author || 'Unknown Author' %>
+                </strong>
+              </p>
+
+              <!-- Action Buttons -->
+              <div class="action-buttons-group">
+                <% if (book.link) { %>
+                  <a href="<%= book.link %>" target="_blank" class="btn-read-primary">
+                    <i class="bi bi-book-half"></i>
+                    <span>Read Book Online</span>
+                  </a>
+                  <a href="<%= book.link %>" download class="btn-download">
+                    <i class="bi bi-download"></i>
+                    <span>Download Book</span>
+                  </a>
+                  <% } else { %>
+                    <div class="unavailable-notice">
+                      <i class="bi bi-exclamation-triangle"></i>
+                      <span>Book file is currently unavailable</span>
+                    </div>
+                    <% } %>
+              </div>
+
+              <!-- Book Description -->
+              <% if (book.description) { %>
+                <div class="book-description-wrapper">
+                  <h5 class="section-title">
+                    <i class="bi bi-file-text"></i>
+                    About This Book
+                  </h5>
+                  <div class="description-content">
+                    <p>
+                      <%= book.description %>
+                    </p>
+                  </div>
+                </div>
+                <% } %>
+
+                  <!-- Additional Info -->
+                  <div class="additional-info">
+                    <div class="info-grid">
+                      <div class="info-box">
+                        <i class="bi bi-heart-fill"></i>
+                        <div class="info-box-content">
+                          <span class="info-number">
+                            <%= book.likes || 0 %>
+                          </span>
+                          <span class="info-text">Likes</span>
+                        </div>
+                      </div>
+                      <div class="info-box">
+                        <i class="bi bi-eye-fill"></i>
+                        <div class="info-box-content">
+                          <span class="info-number">
+                            <%= book.views || 0 %>
+                          </span>
+                          <span class="info-text">Views</span>
+                        </div>
+                      </div>
+                      <div class="info-box">
+                        <i class="bi bi-bookmark-fill"></i>
+                        <div class="info-box-content">
+                          <span class="info-number">
+                            <%= book.category ? book.category.name : 'N/A' %>
+                          </span>
+                          <span class="info-text">Category</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Back Button -->
+                  <div class="navigation-actions">
+                    <a href="/library/book/<%= book._id %>" class="btn-back">
+                      <i class="bi bi-arrow-left"></i>
+                      Back to Details
+                    </a>
+                  </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <style>
+    /* ==========================================
+   READ BOOK PAGE - EMBEDDED STYLES
+   ========================================== */
+
+    .read-book-page {
+      min-height: calc(100vh - 200px);
+      padding-bottom: 3rem;
+      background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    }
+
+    /* ==========================================
+   READ HEADER
+   ========================================== */
+
+    .read-header {
+      position: relative;
+      background: linear-gradient(135deg, #011C40, #023859, #26658C);
+      padding: 2rem 0;
+      margin-bottom: 2rem;
+      overflow: hidden;
+    }
+
+    .header-particles {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      z-index: 0;
+    }
+
+    .particle {
+      position: absolute;
+      width: 3px;
+      height: 3px;
+      background: rgba(255, 255, 255, 0.6);
+      border-radius: 50%;
+      animation: float-particle 12s infinite ease-in-out;
+    }
+
+    .particle:nth-child(1) {
+      left: 25%;
+      animation-delay: 0s;
+    }
+
+    .particle:nth-child(2) {
+      left: 50%;
+      animation-delay: -4s;
+    }
+
+    .particle:nth-child(3) {
+      left: 75%;
+      animation-delay: -8s;
+    }
+
+    @keyframes float-particle {
+      0% {
+        transform: translateY(100vh) scale(0);
+        opacity: 0;
+      }
+
+      10% {
+        opacity: 1;
+      }
+
+      90% {
+        opacity: 1;
+      }
+
+      100% {
+        transform: translateY(-100px) scale(1);
+        opacity: 0;
+      }
+    }
+
+    .breadcrumb-nav {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      color: white;
+      animation: fadeInDown 0.6s ease;
+    }
+
+    @keyframes fadeInDown {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .breadcrumb-link {
+      color: rgba(255, 255, 255, 0.9);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-weight: 500;
+      transition: all 0.3s ease;
+    }
+
+    .breadcrumb-link:hover {
+      color: white;
+      transform: translateX(3px);
+    }
+
+    .breadcrumb-nav i.bi-chevron-right {
+      font-size: 0.75rem;
+      opacity: 0.7;
+    }
+
+    .breadcrumb-current {
+      color: white;
+      font-weight: 600;
+    }
+
+    /* ==========================================
+   READ CARD
+   ========================================== */
+
+    .read-card {
+      background: white;
+      border-radius: 30px;
+      overflow: hidden;
+      box-shadow: 0 15px 50px rgba(1, 28, 64, 0.12);
+      animation: zoomIn 0.6s ease;
+    }
+
+    @keyframes zoomIn {
+      from {
+        opacity: 0;
+        transform: scale(0.95);
+      }
+
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    /* ==========================================
+   BOOK COVER SECTION
+   ========================================== */
+
+    .book-cover-section {
+      padding: 2.5rem;
+      background: linear-gradient(135deg, rgba(1, 28, 64, 0.03), rgba(38, 101, 140, 0.03));
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      animation: slideInLeft 0.6s ease;
+    }
+
+    @keyframes slideInLeft {
+      from {
+        opacity: 0;
+        transform: translateX(-30px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    .book-cover-wrapper {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 3/4;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 15px 40px rgba(1, 28, 64, 0.2);
+    }
+
+    .book-cover-gradient {
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #011C40, #023859, #26658C);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .book-cover-gradient::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, transparent 30%, rgba(255, 255, 255, 0.1) 50%, transparent 70%);
+      animation: cover-shine 3s infinite;
+    }
+
+    @keyframes cover-shine {
+
+      0%,
+      100% {
+        transform: translateX(-100%);
+      }
+
+      50% {
+        transform: translateX(100%);
+      }
+    }
+
+    .book-title-display {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: white;
+      word-wrap: break-word;
+      line-height: 1.4;
+      z-index: 1;
+      position: relative;
+      text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+    }
+
+    .book-shine {
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 50%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+      animation: shine-sweep 4s infinite;
+      pointer-events: none;
+    }
+
+    @keyframes shine-sweep {
+      0% {
+        left: -100%;
+      }
+
+      100% {
+        left: 100%;
+      }
+    }
+
+    .book-info-badge {
+      background: white;
+      padding: 1.25rem;
+      border-radius: 15px;
+      box-shadow: 0 5px 20px rgba(1, 28, 64, 0.08);
+    }
+
+    .info-item {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .info-item i {
+      font-size: 1.5rem;
+      color: #023859;
+    }
+
+    .info-label {
+      font-size: 0.85rem;
+      color: #6c757d;
+      font-weight: 600;
+    }
+
+    .info-value {
+      font-size: 1rem;
+      font-weight: 700;
+      color: #011C40;
+      margin: 0;
+    }
+
+    .category-tag {
+      background: linear-gradient(135deg, #011C40, #023859);
+      color: white;
+      padding: 0.75rem 1.25rem;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      justify-content: center;
+      font-weight: 600;
+      box-shadow: 0 5px 15px rgba(1, 28, 64, 0.2);
+    }
+
+    /* ==========================================
+   BOOK CONTENT SECTION
+   ========================================== */
+
+    .book-content-section {
+      padding: 2.5rem;
+      animation: slideInRight 0.6s ease;
+    }
+
+    @keyframes slideInRight {
+      from {
+        opacity: 0;
+        transform: translateX(30px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    .book-title-main {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: #011C40;
+      margin-bottom: 1rem;
+      line-height: 1.2;
+    }
+
+    .book-author {
+      font-size: 1.1rem;
+      color: #6c757d;
+      margin-bottom: 2rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .book-author i {
+      color: #023859;
+    }
+
+    /* ==========================================
+   ACTION BUTTONS
+   ========================================== */
+
+    .action-buttons-group {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .btn-read-primary {
+      flex: 1;
+      min-width: 200px;
+      padding: 1rem 2rem;
+      background: linear-gradient(135deg, #011C40, #023859);
+      color: white;
+      border: none;
+      border-radius: 15px;
+      font-weight: 600;
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      box-shadow: 0 5px 20px rgba(1, 28, 64, 0.2);
+    }
+
+    .btn-read-primary:hover {
+      background: linear-gradient(135deg, #023859, #26658C);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 30px rgba(1, 28, 64, 0.3);
+      color: white;
+    }
+
+    .btn-download {
+      flex: 1;
+      min-width: 200px;
+      padding: 1rem 2rem;
+      background: linear-gradient(135deg, #ffc107, #ff9800);
+      color: #000;
+      border: none;
+      border-radius: 15px;
+      font-weight: 600;
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      box-shadow: 0 5px 20px rgba(255, 193, 7, 0.3);
+    }
+
+    .btn-download:hover {
+      background: linear-gradient(135deg, #ff9800, #f57c00);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 30px rgba(255, 193, 7, 0.4);
+      color: #000;
+    }
+
+    .unavailable-notice {
+      background: linear-gradient(135deg, rgba(220, 53, 69, 0.1), rgba(220, 53, 69, 0.2));
+      border: 2px solid rgba(220, 53, 69, 0.3);
+      padding: 1.25rem 1.5rem;
+      border-radius: 15px;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      color: #dc3545;
+      font-weight: 600;
+    }
+
+    .unavailable-notice i {
+      font-size: 1.5rem;
+    }
+
+    /* ==========================================
+   BOOK DESCRIPTION
+   ========================================== */
+
+    .book-description-wrapper {
+      margin-bottom: 2rem;
+    }
+
+    .section-title {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #011C40;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 2px solid #e9ecef;
+    }
+
+    .section-title i {
+      color: #023859;
+    }
+
+    .description-content {
+      background: linear-gradient(135deg, rgba(1, 28, 64, 0.02), rgba(38, 101, 140, 0.02));
+      padding: 1.5rem;
+      border-radius: 15px;
+      border-left: 4px solid #023859;
+    }
+
+    .description-content p {
+      font-size: 1.05rem;
+      line-height: 1.8;
+      color: #495057;
+      margin: 0;
+    }
+
+    /* ==========================================
+   ADDITIONAL INFO
+   ========================================== */
+
+    .additional-info {
+      margin-bottom: 2rem;
+    }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 1rem;
+    }
+
+    .info-box {
+      background: white;
+      border: 2px solid #e9ecef;
+      padding: 1.25rem;
+      border-radius: 15px;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      transition: all 0.3s ease;
+    }
+
+    .info-box:hover {
+      border-color: #023859;
+      transform: translateY(-3px);
+      box-shadow: 0 5px 15px rgba(1, 28, 64, 0.1);
+    }
+
+    .info-box i {
+      font-size: 2rem;
+      color: #023859;
+    }
+
+    .info-box-content {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .info-number {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #011C40;
+      line-height: 1;
+    }
+
+    .info-text {
+      font-size: 0.85rem;
+      color: #6c757d;
+    }
+
+    /* ==========================================
+   NAVIGATION ACTIONS
+   ========================================== */
+
+    .navigation-actions {
+      padding-top: 1.5rem;
+      border-top: 2px solid #e9ecef;
+    }
+
+    .btn-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.75rem 1.5rem;
+      background: white;
+      color: #011C40;
+      border: 2px solid #011C40;
+      border-radius: 12px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+
+    .btn-back:hover {
+      background: #011C40;
+      color: white;
+      transform: translateX(-3px);
+    }
+
+    /* ==========================================
+   RESPONSIVE DESIGN
+   ========================================== */
+
+    @media (max-width: 991px) {
+      .book-content-section {
+        padding: 2rem;
+      }
+
+      .book-title-main {
+        font-size: 2rem;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .read-header {
+        padding: 1.5rem 0;
+      }
+
+      .book-cover-section {
+        padding: 2rem;
+      }
+
+      .book-content-section {
+        padding: 1.5rem;
+      }
+
+      .book-title-main {
+        font-size: 1.75rem;
+      }
+
+      .action-buttons-group {
+        flex-direction: column;
+      }
+
+      .btn-read-primary,
+      .btn-download {
+        min-width: 100%;
+      }
+
+      .info-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .book-title-main {
+        font-size: 1.5rem;
+      }
+
+      .book-title-display {
+        font-size: 1.2rem;
+      }
+
+      .book-cover-section {
+        padding: 1.5rem;
+      }
+    }
+  </style>
+
+  <%- include('partials/footer') %>

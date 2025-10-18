@@ -9,13 +9,16 @@ const bookSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    link: {
+        type: String, required: true
+    },
     author: {
         type: String,
-        required: true
+        required: false
     },
     coverImage: {
         type: String,
-        required: true
+        required: false
     },
     category: {
         type: mongoose.Schema.Types.ObjectId,

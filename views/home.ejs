@@ -1,55 +1,80 @@
 <%- include('partials/header') %>
 
-    <!-- Hero Section -->
-    <div class="hero-section bg-primary text-white py-5">
-        <div class="container text-center">
-            <h1 class="display-4 fw-bold mb-3">Welcome to Readify</h1>
-            <p class="lead mb-4">Discover thousands of books across multiple categories. Start your learning journey
-                today!</p>
-            <div class="hero-actions">
-                <a href="/library" class="btn btn-light btn-lg">
-                    <i class="bi bi-collection"></i> Browse Library
-                </a>
+    <!-- Hero Section with Parallax -->
+    <div class="hero-section text-white py-5" id="hero">
+        <div class="animated-background">
+            <div class="floating-shapes">
+                <div class="shape shape-1"></div>
+                <div class="shape shape-2"></div>
+                <div class="shape shape-3"></div>
+                <div class="shape shape-4"></div>
+                <div class="shape shape-5"></div>
+                <div class="shape shape-6"></div>
             </div>
+            <div class="gradient-overlay"></div>
+        </div>
+
+        <div class="container text-center hero-content">
+            <h1 class="display-4 fw-bold mb-3 animate__animated animate__fadeInDown">Welcome to Readify</h1>
+            <p class="lead mb-4 animate__animated animate__fadeInUp animate__delay-1s">Thousands of books, one platform.
+                Start your reading journey now!</p>
+            <a href="/library" class="btn btn-glass btn-lg animate__animated animate__fadeInUp animate__delay-2s">
+                <i class="bi bi-book"></i> Browse Library
+            </a>
+        </div>
+
+        <div class="waves-container">
+            <svg class="waves" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
+                <path fill="#ffffff" fill-opacity="1"
+                    d="M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,122.7C672,117,768,139,864,144C960,149,1056,139,1152,122.7C1248,107,1344,85,1392,74.7L1440,64L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z">
+                </path>
+            </svg>
         </div>
     </div>
 
+
     <!-- Featured Categories Section -->
     <div class="container my-5">
-        <div class="text-center mb-5">
-            <h2 class="mb-3">Featured Categories</h2>
-            <p class="text-muted">Explore our curated collection of books organized by category</p>
+        <div class="text-center mb-5 animate__animated animate__fadeIn">
+            <h2 class="section-title">Featured Categories</h2>
+            <p class="text-muted">Explore our curated book collection</p>
         </div>
 
         <div class="row g-4">
             <% if (featuredCategories && featuredCategories.length> 0) { %>
                 <% featuredCategories.forEach(category=> { %>
                     <div class="col-md-4">
-                        <a href="/library/category/<%= category._id %>" class="text-decoration-none">
-                            <div class="card category-card h-100 shadow-sm">
-                                <img src="<%= category.coverImage %>" class="card-img-top" alt="<%= category.name %>"
-                                    style="height: 200px; object-fit: cover;">
-                                <div class="card-body">
-                                    <h5 class="card-title">
-                                        <%= category.name %>
-                                    </h5>
-                                    <p class="card-text text-muted">
-                                        <%= category.description.substring(0, 100) %>...
-                                    </p>
+                        <div class="card-hover-effect">
+                            <a href="/library/category/<%= category._id %>" class="text-decoration-none">
+                                <div class="card h-100 glass-card">
+                                    <div class="card-img-wrapper">
+                                        <img src="<%= category.coverImage || 'https://via.placeholder.com/400x200/6e6e6e/fff?text=' + encodeURIComponent(category.name) %>"
+                                            class="card-img-top" alt="<%= category.name %>" loading="lazy">
+                                        <div class="card-img-overlay">
+                                            <span class="badge bg-primary">Explore</span>
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <h5 class="card-title fw-bold">
+                                            <%= category.name %>
+                                        </h5>
+                                        <p class="card-text text-muted">
+                                            <%= category.description.substring(0, 100) %>...
+                                        </p>
+                                    </div>
                                 </div>
-                            </div>
-                        </a>
+                            </a>
+                        </div>
                     </div>
-                    <% }); %>
+                    <% }) %>
                         <% } else { %>
                             <div class="col-12 text-center text-muted py-5">
                                 <i class="bi bi-inbox fs-1 mb-3"></i>
-                                <p class="mb-0">No categories available yet. Check back soon!</p>
+                                <p>No categories available yet. Check back soon!</p>
                             </div>
                             <% } %>
         </div>
 
-        <!-- View All Button -->
         <% if (featuredCategories && featuredCategories.length> 0) { %>
             <div class="text-center mt-5">
                 <a href="/library" class="btn btn-primary btn-lg">
@@ -60,42 +85,107 @@
     </div>
 
     <!-- Features Section -->
-    <div class="bg-light py-5">
-        <div class="container">
-            <div class="text-center mb-5">
-                <h2 class="mb-3">Why Choose Readify?</h2>
-                <p class="text-muted">Everything you need for your reading journey in one place</p>
-            </div>
-
-            <div class="row text-center g-4">
-                <!-- Feature 1 -->
-                <div class="col-md-4">
-                    <div class="feature-icon mb-3">
-                        <i class="bi bi-book-half fs-1 text-primary"></i>
+    <div class="features-section py-5">
+        <div class="container text-center">
+            <h2 class="section-title mb-5">Why Choose Readify?</h2>
+            <div class="row g-4 justify-content-center">
+                <!-- Row 1 -->
+                <div class="col-lg-3 col-md-6">
+                    <div class="feature-card" data-aos="fade-up">
+                        <div class="feature-icon">
+                            <i class="bi bi-book-half"></i>
+                        </div>
+                        <h4>Vast Collection</h4>
+                        <p class="text-muted">Access hundreds of books across multiple categories and genres.</p>
                     </div>
-                    <h4 class="mb-3">Vast Collection</h4>
-                    <p class="text-muted">Access hundreds of books across multiple categories</p>
                 </div>
 
-                <!-- Feature 2 -->
-                <div class="col-md-4">
-                    <div class="feature-icon mb-3">
-                        <i class="bi bi-person-check fs-1 text-primary"></i>
+                <div class="col-lg-3 col-md-6">
+                    <div class="feature-card" data-aos="fade-up" data-aos-delay="100">
+                        <div class="feature-icon">
+                            <i class="bi bi-person-check"></i>
+                        </div>
+                        <h4>Track Progress</h4>
+                        <p class="text-muted">Keep track of your reading journey with your personal dashboard.</p>
                     </div>
-                    <h4 class="mb-3">Track Progress</h4>
-                    <p class="text-muted">Keep track of your reading journey with your personal dashboard</p>
                 </div>
 
-                <!-- Feature 3 -->
-                <div class="col-md-4">
-                    <div class="feature-icon mb-3">
-                        <i class="bi bi-chat-dots fs-1 text-primary"></i>
+                <div class="col-lg-3 col-md-6">
+                    <div class="feature-card" data-aos="fade-up" data-aos-delay="200">
+                        <div class="feature-icon">
+                            <i class="bi bi-chat-dots"></i>
+                        </div>
+                        <h4>Engage & Share</h4>
+                        <p class="text-muted">Comment and like books, share your thoughts with the community.</p>
                     </div>
-                    <h4 class="mb-3">Engage & Share</h4>
-                    <p class="text-muted">Comment and like books, share your thoughts with the community</p>
+                </div>
+
+                <div class="col-lg-3 col-md-6">
+                    <div class="feature-card" data-aos="fade-up" data-aos-delay="300">
+                        <div class="feature-icon">
+                            <i class="bi bi-bookmark-heart"></i>
+                        </div>
+                        <h4>Smart Bookmarks</h4>
+                        <p class="text-muted">Never lose your place with intelligent bookmarking across all devices.</p>
+                    </div>
+                </div>
+
+                <!-- Row 2 -->
+                <div class="col-lg-3 col-md-6">
+                    <div class="feature-card" data-aos="fade-up" data-aos-delay="400">
+                        <div class="feature-icon">
+                            <i class="bi bi-palette"></i>
+                        </div>
+                        <h4>Customizable Reader</h4>
+                        <p class="text-muted">Adjust fonts, themes, brightness and reading modes to your preference.</p>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-md-6">
+                    <div class="feature-card" data-aos="fade-up" data-aos-delay="500">
+                        <div class="feature-icon">
+                            <i class="bi bi-cloud-arrow-down"></i>
+                        </div>
+                        <h4>Offline Reading</h4>
+                        <p class="text-muted">Download books to read anytime, anywhere without internet connection.</p>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-md-6">
+                    <div class="feature-card" data-aos="fade-up" data-aos-delay="600">
+                        <div class="feature-icon">
+                            <i class="bi bi-star"></i>
+                        </div>
+                        <h4>Smart Recommendations</h4>
+                        <p class="text-muted">Get personalized book suggestions based on your reading history.</p>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-md-6">
+                    <div class="feature-card" data-aos="fade-up" data-aos-delay="700">
+                        <div class="feature-icon">
+                            <i class="bi bi-phone"></i>
+                        </div>
+                        <h4>Cross-Device Sync</h4>
+                        <p class="text-muted">Continue reading seamlessly across all your devices with cloud sync.</p>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+
+
+    <!-- Add these in the header partial -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+    <!-- Add these before closing body tag -->
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+    <script>
+        AOS.init({
+            duration: 800,
+            once: true
+        });
+    </script>
 
     <%- include('partials/footer') %>
