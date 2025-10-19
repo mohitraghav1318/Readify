@@ -1,72 +1,873 @@
 <%- include('partials/header') %>
 
-    <div class="container my-5">
-        <nav aria-label="breadcrumb">
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="/library">Library</a></li>
-                <li class="breadcrumb-item active">
-                    <%= category.name %>
-                </li>
-            </ol>
-        </nav>
+    <div class="category-page">
+        <!-- Animated Background -->
+        <div class="page-background">
+            <div class="bg-shape shape-1"></div>
+            <div class="bg-shape shape-2"></div>
+            <div class="bg-shape shape-3"></div>
+        </div>
 
-        <div class="row mb-4">
-            <div class="col-md-3">
-                <img src="<%= category.coverImage %>" class="img-fluid rounded shadow" alt="<%= category.name %>">
-            </div>
-            <div class="col-md-9">
-                <h1 class="mb-3">
-                    <%= category.name %>
-                </h1>
-                <p class="lead text-muted">
-                    <%= category.description %>
-                </p>
-                <p class="text-muted"><i class="bi bi-book"></i>
-                    <%= books.length %> books available
-                </p>
+        <!-- Breadcrumb Section -->
+        <div class="breadcrumb-section">
+            <div class="container">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb custom-breadcrumb">
+                        <li class="breadcrumb-item">
+                            <a href="/">
+                                <i class="bi bi-house-door"></i> Home
+                            </a>
+                        </li>
+                        <li class="breadcrumb-item">
+                            <a href="/library">
+                                <i class="bi bi-collection"></i> Library
+                            </a>
+                        </li>
+                        <li class="breadcrumb-item active">
+                            <%= category.name %>
+                        </li>
+                    </ol>
+                </nav>
             </div>
         </div>
 
-        <h3 class="mb-4">Books in this category</h3>
-
-        <div class="row g-4">
-            <% if (books && books.length> 0) { %>
-                <% books.forEach(book=> { %>
-                    <div class="col-md-3">
-                        <a href="/library/book/<%= book._id %>" class="text-decoration-none">
-                            <div class="card book-card h-100 shadow-sm hover-lift">
-                                <div class="row d-flex align-items-center justify-content-center p-3">
-                                    <div
-                                        class="book-cover d-flex align-items-center justify-content-center text-center">
-                                        <span class="book-title">
-                                            <%= book.title %>
-                                        </span>
-                                    </div>
-                                </div>
-                                <div class="card-body">
-                                    <h6 class="card-title">
-                                        <%= book.title %>
-                                    </h6>
-                                    <p class="card-text text-muted small">By <%= book.author %>
-                                    </p>
-                                    <div class="d-flex align-items-center gap-2">
-                                        <span class="badge bg-primary"><i class="bi bi-heart-fill"></i>
-                                            <%= book.likes %>
-                                        </span>
-                                    </div>
-                                </div>
+        <div class="container my-5">
+            <!-- Category Header -->
+            <div class="category-header">
+                <div class="row align-items-center g-4">
+                    <div class="col-lg-3 col-md-4">
+                        <div class="category-image-wrapper">
+                            <img src="<%= category.coverImage %>" class="category-image" alt="<%= category.name %>"
+                                loading="lazy">
+                            <div class="image-overlay"></div>
+                            <div class="category-badge">
+                                <i class="bi bi-bookmark-fill"></i>
                             </div>
-                        </a>
+                        </div>
                     </div>
-                    <% }); %>
-                        <% } else { %>
-                            <div class="col-12 text-center text-muted py-5">
-                                <i class="bi bi-inbox fs-1"></i>
-                                <p class="mt-3">No books available in this category yet.</p>
+                    <div class="col-lg-9 col-md-8">
+                        <div class="category-info">
+                            <h1 class="category-title">
+                                <%= category.name %>
+                            </h1>
+                            <p class="category-description">
+                                <%= category.description %>
+                            </p>
+                            <div class="category-meta">
+                                <div class="meta-item">
+                                    <i class="bi bi-book-fill"></i>
+                                    <span><strong>
+                                            <%= books.length %>
+                                        </strong> Books Available</span>
+                                </div>
+                                <div class="meta-item">
+                                    <i class="bi bi-grid-3x3-gap-fill"></i>
+                                    <span>Category Collection</span>
+                                </div>
                             </div>
-                            <% } %>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Books Section -->
+            <div class="books-section">
+                <div class="section-header">
+                    <h3 class="section-title">
+                        <i class="bi bi-collection"></i>
+                        Books in this category
+                    </h3>
+                    <div class="title-divider"></div>
+                </div>
+
+                <div class="row g-4">
+                    <% if (books && books.length> 0) { %>
+                        <% books.forEach((book, index)=> { %>
+                            <div class="col-xl-3 col-lg-4 col-md-6" style="animation-delay: <%= index * 0.1 %>s;">
+                                <a href="/library/book/<%= book._id %>" class="book-link">
+                                    <div class="book-card">
+                                        <div class="book-3d-wrapper">
+                                            <div class="book-3d">
+                                                <!-- Book Spine -->
+                                                <div class="book-spine"></div>
+
+                                                <!-- Book Front Cover -->
+                                                <div class="book-front">
+                                                    <div class="book-cover-design">
+                                                        <div class="cover-pattern"></div>
+                                                        <div class="cover-content">
+                                                            <div class="book-title-text">
+                                                                <%= book.title %>
+                                                            </div>
+                                                            <div class="book-author-text">
+                                                                <%= book.author %>
+                                                            </div>
+                                                        </div>
+                                                        <div class="cover-accent-top"></div>
+                                                        <div class="cover-accent-bottom"></div>
+                                                    </div>
+                                                </div>
+
+                                                <!-- Book Top -->
+                                                <div class="book-top"></div>
+                                            </div>
+                                        </div>
+
+                                        <div class="book-info">
+                                            <h6 class="book-title">
+                                                <%= book.title %>
+                                            </h6>
+                                            <p class="book-author">
+                                                <i class="bi bi-person"></i>
+                                                <%= book.author %>
+                                            </p>
+                                            <div class="book-meta">
+                                                <span class="likes-badge">
+                                                    <i class="bi bi-heart-fill"></i>
+                                                    <%= book.likes %>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                            <% }); %>
+                                <% } else { %>
+                                    <div class="col-12">
+                                        <div class="empty-state">
+                                            <div class="empty-icon">
+                                                <i class="bi bi-inbox"></i>
+                                            </div>
+                                            <h4 class="empty-title">No Books Available</h4>
+                                            <p class="empty-text">
+                                                There are no books in this category yet. Check back soon!
+                                            </p>
+                                            <a href="/library" class="btn-back-library">
+                                                <i class="bi bi-arrow-left"></i>
+                                                Back to Library
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <% } %>
+                </div>
+            </div>
         </div>
     </div>
 
+    <style>
+        /* ==========================================
+   CATEGORY PAGE - EMBEDDED STYLES
+   ========================================== */
+
+        .category-page {
+            min-height: calc(100vh - 200px);
+            padding-bottom: 3rem;
+            position: relative;
+        }
+
+        /* ==========================================
+   ANIMATED BACKGROUND
+   ========================================== */
+
+        .page-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        }
+
+        .bg-shape {
+            position: absolute;
+            border-radius: 50%;
+            background: linear-gradient(135deg, rgba(1, 28, 64, 0.03), rgba(38, 101, 140, 0.03));
+            animation: float-shape 20s infinite ease-in-out;
+        }
+
+        .shape-1 {
+            width: 400px;
+            height: 400px;
+            top: -100px;
+            left: -100px;
+            animation-duration: 25s;
+            animation-delay: 0s;
+        }
+
+        .shape-2 {
+            width: 300px;
+            height: 300px;
+            bottom: -50px;
+            right: 10%;
+            animation-duration: 30s;
+            animation-delay: -10s;
+        }
+
+        .shape-3 {
+            width: 350px;
+            height: 350px;
+            top: 40%;
+            right: -100px;
+            animation-duration: 28s;
+            animation-delay: -15s;
+        }
+
+        @keyframes float-shape {
+
+            0%,
+            100% {
+                transform: translate(0, 0) rotate(0deg);
+            }
+
+            25% {
+                transform: translate(30px, -30px) rotate(90deg);
+            }
+
+            50% {
+                transform: translate(-20px, 20px) rotate(180deg);
+            }
+
+            75% {
+                transform: translate(40px, 10px) rotate(270deg);
+            }
+        }
+
+        /* ==========================================
+   BREADCRUMB SECTION
+   ========================================== */
+
+        .breadcrumb-section {
+            background: white;
+            padding: 1.5rem 0;
+            box-shadow: 0 2px 10px rgba(1, 28, 64, 0.05);
+            margin-bottom: 2rem;
+        }
+
+        .custom-breadcrumb {
+            background: transparent;
+            margin: 0;
+            padding: 0;
+        }
+
+        .custom-breadcrumb .breadcrumb-item a {
+            color: #023859;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .custom-breadcrumb .breadcrumb-item a:hover {
+            color: #011C40;
+            transform: translateX(3px);
+        }
+
+        .custom-breadcrumb .breadcrumb-item.active {
+            color: #26658C;
+            font-weight: 600;
+        }
+
+        /* ==========================================
+   CATEGORY HEADER
+   ========================================== */
+
+        .category-header {
+            background: white;
+            border-radius: 25px;
+            padding: 2.5rem;
+            box-shadow: 0 10px 40px rgba(1, 28, 64, 0.08);
+            margin-bottom: 3rem;
+            animation: fadeInUp 0.6s ease;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .category-image-wrapper {
+            position: relative;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 15px 35px rgba(1, 28, 64, 0.15);
+            transition: all 0.4s ease;
+        }
+
+        .category-image-wrapper:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 45px rgba(1, 28, 64, 0.25);
+        }
+
+        .category-image {
+            width: 100%;
+            height: auto;
+            aspect-ratio: 3/4;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.4s ease;
+        }
+
+        .category-image-wrapper:hover .category-image {
+            transform: scale(1.05);
+        }
+
+        .image-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(1, 28, 64, 0.2), rgba(38, 101, 140, 0.2));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .category-image-wrapper:hover .image-overlay {
+            opacity: 1;
+        }
+
+        .category-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #011C40, #023859);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 20px rgba(1, 28, 64, 0.3);
+            animation: pulse-badge 2s infinite;
+        }
+
+        @keyframes pulse-badge {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.1);
+            }
+        }
+
+        .category-badge i {
+            color: white;
+            font-size: 1.5rem;
+        }
+
+        .category-info {
+            animation: slideInRight 0.6s ease;
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .category-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #011C40;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        .category-description {
+            font-size: 1.1rem;
+            color: #6c757d;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .category-meta {
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.6rem 1.2rem;
+            background: linear-gradient(135deg, rgba(1, 28, 64, 0.05), rgba(38, 101, 140, 0.05));
+            border-radius: 25px;
+            border: 1px solid rgba(1, 28, 64, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .meta-item:hover {
+            background: linear-gradient(135deg, rgba(1, 28, 64, 0.1), rgba(38, 101, 140, 0.1));
+            transform: translateY(-2px);
+        }
+
+        .meta-item i {
+            font-size: 1.2rem;
+            color: #023859;
+        }
+
+        .meta-item span {
+            color: #495057;
+            font-size: 0.95rem;
+        }
+
+        /* ==========================================
+   BOOKS SECTION
+   ========================================== */
+
+        .books-section {
+            margin-top: 3rem;
+        }
+
+        .section-header {
+            margin-bottom: 2rem;
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #011C40;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .section-title i {
+            color: #023859;
+        }
+
+        .title-divider {
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(90deg, #011C40, #023859, #26658C);
+            border-radius: 2px;
+            animation: expand-divider 1s ease;
+        }
+
+        @keyframes expand-divider {
+            from {
+                width: 0;
+            }
+
+            to {
+                width: 80px;
+            }
+        }
+
+        /* ==========================================
+   3D BOOK CARDS - REALISTIC DESIGN
+   ========================================== */
+
+        .col-xl-3,
+        .col-lg-4,
+        .col-md-6 {
+            animation: cardFadeIn 0.6s ease both;
+        }
+
+        @keyframes cardFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .book-link {
+            text-decoration: none;
+            display: block;
+        }
+
+        .book-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(1, 28, 64, 0.08);
+            transition: all 0.4s ease;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .book-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(1, 28, 64, 0.12);
+        }
+
+        /* 3D Book Wrapper */
+        .book-3d-wrapper {
+            perspective: 1200px;
+            padding: 2rem 1.5rem 1.5rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, rgba(1, 28, 64, 0.02), transparent);
+        }
+
+        .book-3d {
+            position: relative;
+            width: 180px;
+            height: 260px;
+            transform-style: preserve-3d;
+            transform: rotateY(-20deg) rotateX(5deg);
+            transition: transform 0.6s ease;
+        }
+
+        .book-card:hover .book-3d {
+            transform: rotateY(-10deg) rotateX(2deg) translateZ(10px);
+        }
+
+        /* Book Spine (Left Side) */
+        .book-spine {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 30px;
+            height: 100%;
+            background: linear-gradient(to right,
+                    #001829,
+                    #011C40 20%,
+                    #023859 50%,
+                    #011C40 80%,
+                    #001220);
+            transform-origin: left center;
+            transform: rotateY(-90deg);
+            box-shadow: inset -2px 0 10px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Book Front Cover */
+        .book-front {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #011C40, #023859, #26658C);
+            border-radius: 3px;
+            box-shadow:
+                5px 5px 20px rgba(0, 0, 0, 0.3),
+                inset 0 0 0 2px rgba(255, 255, 255, 0.1);
+        }
+
+        .book-cover-design {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Decorative Pattern */
+        .cover-pattern {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image:
+                repeating-linear-gradient(45deg,
+                    transparent,
+                    transparent 10px,
+                    rgba(255, 255, 255, 0.02) 10px,
+                    rgba(255, 255, 255, 0.02) 20px);
+            opacity: 0.5;
+        }
+
+        /* Cover Content */
+        .cover-content {
+            position: relative;
+            z-index: 2;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 1.5rem 1rem;
+            text-align: center;
+        }
+
+        .book-title-text {
+            font-size: 1rem;
+            font-weight: 800;
+            color: #ffffff;
+            line-height: 1.3;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            text-shadow:
+                2px 2px 4px rgba(0, 0, 0, 0.5),
+                0 0 10px rgba(0, 0, 0, 0.3);
+            display: -webkit-box;
+            -webkit-line-clamp: 4;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .book-author-text {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.9);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding-top: 0.75rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        /* Decorative Accents */
+        .cover-accent-top,
+        .cover-accent-bottom {
+            position: absolute;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg,
+                    transparent,
+                    rgba(255, 255, 255, 0.3) 50%,
+                    transparent);
+        }
+
+        .cover-accent-top {
+            top: 15px;
+        }
+
+        .cover-accent-bottom {
+            bottom: 15px;
+        }
+
+        /* Book Top Edge */
+        .book-top {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 30px;
+            background: linear-gradient(to bottom,
+                    #023859,
+                    #011C40);
+            transform-origin: top center;
+            transform: rotateX(90deg);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Book Info Section */
+        .book-info {
+            padding: 1.5rem;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .book-title {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #011C40;
+            margin-bottom: 0.5rem;
+            line-height: 1.3;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .book-author {
+            font-size: 0.85rem;
+            color: #6c757d;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .book-meta {
+            margin-top: auto;
+        }
+
+        .likes-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.4rem 0.8rem;
+            background: linear-gradient(135deg, rgba(220, 53, 69, 0.1), rgba(220, 53, 69, 0.2));
+            color: #dc3545;
+            border-radius: 15px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            border: 1px solid rgba(220, 53, 69, 0.2);
+        }
+
+        /* ==========================================
+   EMPTY STATE
+   ========================================== */
+
+        .empty-state {
+            text-align: center;
+            padding: 5rem 2rem;
+            background: white;
+            border-radius: 25px;
+            box-shadow: 0 10px 40px rgba(1, 28, 64, 0.08);
+        }
+
+        .empty-icon {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 2rem;
+            background: linear-gradient(135deg, rgba(1, 28, 64, 0.1), rgba(38, 101, 140, 0.1));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: gentle-pulse 2s infinite;
+        }
+
+        @keyframes gentle-pulse {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
+        .empty-icon i {
+            font-size: 4rem;
+            color: #023859;
+        }
+
+        .empty-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #011C40;
+            margin-bottom: 1rem;
+        }
+
+        .empty-text {
+            font-size: 1.1rem;
+            color: #6c757d;
+            margin-bottom: 2rem;
+        }
+
+        .btn-back-library {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.9rem 2rem;
+            background: linear-gradient(135deg, #011C40, #023859);
+            color: white;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-back-library:hover {
+            background: linear-gradient(135deg, #023859, #26658C);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(1, 28, 64, 0.3);
+            color: white;
+        }
+
+        /* ==========================================
+   RESPONSIVE DESIGN
+   ========================================== */
+
+        @media (max-width: 991px) {
+            .category-header {
+                padding: 2rem;
+            }
+
+            .category-title {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .category-header {
+                padding: 1.5rem;
+            }
+
+            .category-title {
+                font-size: 1.75rem;
+                margin-top: 1rem;
+            }
+
+            .category-description {
+                font-size: 1rem;
+            }
+
+            .category-meta {
+                flex-direction: column;
+                gap: 0.75rem;
+            }
+
+            .section-title {
+                font-size: 1.5rem;
+            }
+
+            .bg-shape {
+                opacity: 0.5;
+            }
+
+            .book-3d {
+                width: 160px;
+                height: 230px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .breadcrumb-section {
+                padding: 1rem 0;
+            }
+
+            .category-header {
+                padding: 1rem;
+                border-radius: 15px;
+            }
+
+            .category-title {
+                font-size: 1.5rem;
+            }
+
+            .empty-state {
+                padding: 3rem 1.5rem;
+            }
+
+            .book-3d {
+                width: 140px;
+                height: 200px;
+            }
+
+            .book-title-text {
+                font-size: 0.9rem;
+            }
+
+            .book-author-text {
+                font-size: 0.7rem;
+            }
+        }
+    </style>
 
     <%- include('partials/footer') %>

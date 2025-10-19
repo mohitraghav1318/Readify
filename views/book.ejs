@@ -1,6 +1,16 @@
 <%- include('partials/header') %>
 
     <div class="book-details-page">
+        <!-- Animated Background -->
+        <div class="details-background">
+            <div class="bg-particle"></div>
+            <div class="bg-particle"></div>
+            <div class="bg-particle"></div>
+            <div class="bg-particle"></div>
+            <div class="bg-wave wave-1"></div>
+            <div class="bg-wave wave-2"></div>
+        </div>
+
         <!-- Breadcrumb Section -->
         <div class="breadcrumb-section">
             <div class="container">
@@ -34,15 +44,54 @@
                 <!-- Left Column - Book Cover & Actions -->
                 <div class="col-lg-4 col-md-5">
                     <div class="book-sidebar">
-                        <!-- Book Cover -->
-                        <div class="book-cover-container">
-                            <div class="book-cover-wrapper">
-                                <div class="book-cover">
-                                    <span class="book-title-display">
-                                        <%= book.title %>
-                                    </span>
+                        <!-- 3D Book Cover -->
+                        <div class="book-3d-container">
+                            <div class="book-3d-scene">
+                                <div class="book-3d">
+                                    <!-- Back Cover -->
+                                    <div class="book-back"></div>
+
+                                    <!-- Spine -->
+                                    <div class="book-spine">
+                                        <div class="spine-text">
+                                            <%= book.title %>
+                                        </div>
+                                    </div>
+
+                                    <!-- Front Cover -->
+                                    <div class="book-front">
+                                        <div class="cover-texture"></div>
+                                        <div class="cover-design">
+                                            <div class="cover-header">
+                                                <div class="decorative-line"></div>
+                                            </div>
+                                            <div class="cover-main">
+                                                <h2 class="cover-title">
+                                                    <%= book.title %>
+                                                </h2>
+                                                <div class="cover-ornament">
+                                                    <i class="bi bi-book"></i>
+                                                </div>
+                                                <p class="cover-author">
+                                                    <%= book.author %>
+                                                </p>
+                                            </div>
+                                            <div class="cover-footer">
+                                                <div class="decorative-line"></div>
+                                                <span class="category-label">
+                                                    <%= book.category.name %>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="cover-shine"></div>
+                                    </div>
+
+                                    <!-- Top -->
+                                    <div class="book-top"></div>
+
+                                    <!-- Bottom -->
+                                    <div class="book-bottom"></div>
                                 </div>
-                                <div class="book-shine"></div>
                             </div>
                         </div>
 
@@ -224,14 +273,116 @@
         .book-details-page {
             min-height: calc(100vh - 200px);
             padding-bottom: 3rem;
+            position: relative;
+        }
+
+        /* ==========================================
+   ANIMATED BACKGROUND
+   ========================================== */
+
+        .details-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            overflow: hidden;
+        }
+
+        .bg-particle {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: rgba(1, 28, 64, 0.3);
+            border-radius: 50%;
+            animation: float-particle 15s infinite ease-in-out;
+        }
+
+        .bg-particle:nth-child(1) {
+            left: 15%;
+            animation-delay: 0s;
+            animation-duration: 18s;
+        }
+
+        .bg-particle:nth-child(2) {
+            left: 35%;
+            animation-delay: -5s;
+            animation-duration: 20s;
+        }
+
+        .bg-particle:nth-child(3) {
+            left: 65%;
+            animation-delay: -10s;
+            animation-duration: 22s;
+        }
+
+        .bg-particle:nth-child(4) {
+            left: 85%;
+            animation-delay: -15s;
+            animation-duration: 25s;
+        }
+
+        @keyframes float-particle {
+            0% {
+                transform: translateY(100vh) scale(0);
+                opacity: 0;
+            }
+
+            10% {
+                opacity: 1;
+            }
+
+            90% {
+                opacity: 1;
+            }
+
+            100% {
+                transform: translateY(-100px) scale(1);
+                opacity: 0;
+            }
+        }
+
+        .bg-wave {
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(1, 28, 64, 0.02) 0%, transparent 70%);
+            animation: wave-rotate 30s linear infinite;
+        }
+
+        .wave-1 {
+            top: -50%;
+            left: -50%;
+            animation-duration: 35s;
+        }
+
+        .wave-2 {
+            bottom: -50%;
+            right: -50%;
+            animation-duration: 40s;
+            animation-direction: reverse;
+        }
+
+        @keyframes wave-rotate {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
         }
 
         /* Breadcrumb Section */
         .breadcrumb-section {
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            background: white;
             padding: 1.5rem 0;
-            border-bottom: 1px solid rgba(1, 28, 64, 0.1);
+            box-shadow: 0 2px 10px rgba(1, 28, 64, 0.05);
             margin-bottom: 2rem;
+            position: relative;
+            z-index: 1;
         }
 
         .custom-breadcrumb {
@@ -259,20 +410,19 @@
             font-weight: 600;
         }
 
-        /* Book Sidebar */
+        /* ==========================================
+   3D BOOK COVER - CLEAN DESIGN
+   ========================================== */
+
         .book-sidebar {
             position: sticky;
             top: 100px;
+            z-index: 1;
         }
 
-        .book-cover-container {
+        .book-3d-container {
             margin-bottom: 2rem;
-            perspective: 1000px;
-        }
-
-        .book-cover-wrapper {
-            position: relative;
-            animation: fadeInUp 0.6s ease;
+            animation: fadeInUp 0.8s ease;
         }
 
         @keyframes fadeInUp {
@@ -287,59 +437,239 @@
             }
         }
 
-        .book-cover {
+        .book-3d-scene {
+            perspective: 1500px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 3rem 1rem;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.8) 0%, transparent 70%);
+        }
+
+        .book-3d {
+            position: relative;
+            width: 240px;
+            height: 340px;
+            transform-style: preserve-3d;
+            transform: rotateY(-15deg);
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .book-3d:hover {
+            transform: rotateY(-15deg) translateY(-20px) scale(1.05);
+        }
+
+        /* Book Back Cover */
+        .book-back {
+            position: absolute;
             width: 100%;
-            aspect-ratio: 3/4;
-            background: linear-gradient(135deg, #011C40, #023859, #26658C);
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(1, 28, 64, 0.3);
-            padding: 2rem;
+            height: 100%;
+            background: linear-gradient(135deg, #000811, #011C40);
+            border-radius: 3px 0 0 3px;
+            transform: translateZ(-40px);
+            box-shadow: -5px 0 15px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Book Spine */
+        .book-spine {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 40px;
+            height: 100%;
+            background: linear-gradient(to right,
+                    #000811,
+                    #011C40 30%,
+                    #023859 50%,
+                    #011C40 70%,
+                    #000811);
+            transform-origin: left center;
+            transform: rotateY(-90deg);
+            box-shadow: inset -3px 0 15px rgba(0, 0, 0, 0.7);
             display: flex;
             align-items: center;
             justify-content: center;
-            text-align: center;
-            transition: all 0.4s ease;
-            position: relative;
+        }
+
+        .spine-text {
+            writing-mode: vertical-rl;
+            text-orientation: mixed;
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-height: 300px;
+        }
+
+        /* Book Front Cover */
+        .book-front {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #011C40, #023859, #26658C);
+            border-radius: 3px;
+            box-shadow:
+                8px 8px 30px rgba(0, 0, 0, 0.4),
+                inset 0 0 0 3px rgba(255, 255, 255, 0.1),
+                inset 0 0 100px rgba(0, 0, 0, 0.2);
             overflow: hidden;
         }
 
-        .book-cover:hover {
-            transform: translateY(-10px) rotateY(5deg);
-            box-shadow: 0 30px 70px rgba(1, 28, 64, 0.4);
-        }
-
-        .book-cover::before {
-            content: '';
+        .cover-texture {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(135deg, transparent 30%, rgba(255, 255, 255, 0.1) 50%, transparent 70%);
-            animation: shine 3s infinite;
+            background-image:
+                repeating-linear-gradient(0deg,
+                    rgba(255, 255, 255, 0.03) 0px,
+                    transparent 1px,
+                    transparent 2px,
+                    rgba(255, 255, 255, 0.03) 3px),
+                repeating-linear-gradient(90deg,
+                    rgba(255, 255, 255, 0.03) 0px,
+                    transparent 1px,
+                    transparent 2px,
+                    rgba(255, 255, 255, 0.03) 3px);
+            opacity: 0.3;
         }
 
-        @keyframes shine {
-
-            0%,
-            100% {
-                transform: translateX(-100%);
-            }
-
-            50% {
-                transform: translateX(100%);
-            }
-        }
-
-        .book-title-display {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: white;
-            word-wrap: break-word;
-            z-index: 1;
+        .cover-design {
             position: relative;
-            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
-            line-height: 1.4;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            padding: 2.5rem 2rem;
+            z-index: 1;
+        }
+
+        .cover-header,
+        .cover-footer {
+            text-align: center;
+        }
+
+        .decorative-line {
+            width: 60%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.6), transparent);
+            margin: 0 auto;
+        }
+
+        .cover-main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .cover-title {
+            font-size: 1.4rem;
+            font-weight: 900;
+            color: #ffffff;
+            line-height: 1.3;
+            margin-bottom: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-shadow:
+                3px 3px 6px rgba(0, 0, 0, 0.5),
+                0 0 15px rgba(0, 0, 0, 0.3);
+            display: -webkit-box;
+            -webkit-line-clamp: 4;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .cover-ornament {
+            width: 60px;
+            height: 60px;
+            border: 3px solid rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 1rem auto;
+            position: relative;
+        }
+
+        .cover-ornament::before {
+            content: '';
+            position: absolute;
+            width: 70px;
+            height: 70px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+        }
+
+        .cover-ornament i {
+            font-size: 1.8rem;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .cover-author {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.95);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin: 1rem 0 0;
+        }
+
+        .category-label {
+            font-size: 0.75rem;
+            color: rgba(255, 255, 255, 0.8);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-top: 0.5rem;
+            display: inline-block;
+        }
+
+        .cover-shine {
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg,
+                    transparent 30%,
+                    rgba(255, 255, 255, 0.1) 50%,
+                    transparent 70%);
+            transform: rotate(45deg);
+            pointer-events: none;
+        }
+
+        /* Book Top */
+        .book-top {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 40px;
+            background: linear-gradient(to bottom, #023859, #011C40);
+            transform-origin: top center;
+            transform: rotateX(90deg);
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Book Bottom */
+        .book-bottom {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 40px;
+            background: linear-gradient(to top, #000811, #011C40);
+            transform-origin: bottom center;
+            transform: rotateX(-90deg);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
         }
 
         /* Action Buttons */
@@ -428,23 +758,6 @@
             background: linear-gradient(135deg, #dc3545, #c82333);
             color: white;
             box-shadow: 0 4px 15px rgba(220, 53, 69, 0.3);
-            animation: heartBeat 0.6s;
-        }
-
-        @keyframes heartBeat {
-
-            0%,
-            100% {
-                transform: scale(1);
-            }
-
-            25% {
-                transform: scale(1.1);
-            }
-
-            50% {
-                transform: scale(0.95);
-            }
         }
 
         .btn-read {
@@ -469,17 +782,6 @@
             border-radius: 15px;
             padding: 1.5rem;
             box-shadow: 0 5px 20px rgba(1, 28, 64, 0.08);
-            animation: fadeIn 0.8s ease;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-
-            to {
-                opacity: 1;
-            }
         }
 
         .stats-title {
@@ -512,7 +814,19 @@
 
         /* Book Details Content */
         .book-details-content {
-            animation: fadeInUp 0.6s ease 0.2s both;
+            animation: slideInRight 0.8s ease;
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
         }
 
         .book-header {
@@ -555,19 +869,6 @@
             border-radius: 20px;
             font-weight: 600;
             font-size: 0.9rem;
-            animation: slideIn 0.5s ease;
-        }
-
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateX(-20px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
         }
 
         .category-badge {
@@ -721,19 +1022,6 @@
             box-shadow: 0 5px 20px rgba(1, 28, 64, 0.08);
             border-left: 4px solid #023859;
             transition: all 0.3s ease;
-            animation: slideInComment 0.5s ease;
-        }
-
-        @keyframes slideInComment {
-            from {
-                opacity: 0;
-                transform: translateX(-20px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
         }
 
         .comment-card:hover {
@@ -834,7 +1122,12 @@
                 font-size: 1.5rem;
             }
 
-            .book-title-display {
+            .book-3d {
+                width: 220px;
+                height: 300px;
+            }
+
+            .cover-title {
                 font-size: 1.2rem;
             }
         }
@@ -849,8 +1142,13 @@
                 font-size: 0.95rem;
             }
 
-            .book-title-display {
-                font-size: 1rem;
+            .book-3d {
+                width: 200px;
+                height: 280px;
+            }
+
+            .cover-title {
+                font-size: 1.1rem;
             }
 
             .comment-form {
